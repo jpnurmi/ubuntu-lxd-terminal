@@ -119,7 +119,7 @@ class TerminalStore extends StateNotifier<List<TerminalState>> {
   void reset() => _setCurrentState(const TerminalState.none());
 
   void _setCurrentIndex(int index) {
-    _read(currentIndex.state).state = index;
+    _read(currentIndex.state).update((_) => index);
   }
 
   void _setCurrentState(TerminalState terminal) {

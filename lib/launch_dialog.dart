@@ -65,7 +65,7 @@ class LaunchDialog extends ConsumerWidget {
                       child: RemoteImageView(
                         selected: selected,
                         onSelected: (image) {
-                          ref.read(selectedImage.state).state = image;
+                          ref.read(selectedImage.state).update((_) => image);
                         },
                       ),
                     ),

@@ -52,7 +52,7 @@ class HomePage extends ConsumerWidget {
                     return MovableTabButton(
                       selected: index == ref.watch(currentIndex),
                       onPressed: () =>
-                          ref.read(currentIndex.state).state = index,
+                          ref.read(currentIndex.state).update((_) => index),
                       onClosed: () =>
                           ref.read(terminalStore.notifier).closeAt(index),
                       label: const Text('Terminal'), // TODO: title
