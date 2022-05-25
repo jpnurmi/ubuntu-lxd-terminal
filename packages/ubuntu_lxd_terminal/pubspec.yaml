@@ -20,9 +20,6 @@ dependencies:
   meta: ^1.7.0
   movable_tabs:
     path: ../movable_tabs
-  provider: ^6.0.0
-  safe_change_notifier: ^0.1.0
-  scroll_pos: ^0.3.0
   shared_preferences: ^2.0.15
   xterm: ^2.6.0
   yaru: ^0.3.0
