@@ -1,5 +1,5 @@
-name: ubuntu_lxd
-description: An unofficial LXD UI for Ubuntu.
+name: ubuntu_lxd_terminal
+description: An experimental Flutter-based LXD terminal UI for Ubuntu.
 publish_to: 'none'
 
 environment:

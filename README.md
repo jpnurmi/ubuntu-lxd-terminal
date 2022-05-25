@@ -1,3 +1,3 @@
-# Ubuntu LXD
+# Ubuntu LXD Terminal
 
-An experimental LXD UI for Ubuntu.
+An experimental Flutter-based LXD terminal UI for Ubuntu.

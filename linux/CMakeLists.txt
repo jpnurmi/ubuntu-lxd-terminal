@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "ubuntu_lxd")
-set(APPLICATION_ID "com.example.ubuntu_lxd")
+set(BINARY_NAME "ubuntu-lxd-terminal")
+set(APPLICATION_ID "com.canonical.ubuntu_lxd_terminal")
 
 cmake_policy(SET CMP0063 NEW)
 
