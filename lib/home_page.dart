@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'launch_view.dart';
 import 'lxd.dart';
+import 'operations/operation_view.dart';
 import 'terminal/terminal_store.dart';
 import 'terminal/terminal_view.dart';
-import 'widgets/loading_indicator.dart';
 import 'widgets/movable_tabs.dart';
 
 class HomePage extends ConsumerWidget {
@@ -68,8 +68,10 @@ class HomePage extends ConsumerWidget {
               onDelete: (i) => ref.read(lxdClient).deleteInstance(i.name),
               onStop: (i) => ref.read(lxdClient).stopInstance(i.name),
             ),
-            creating: (image, name) => const LoadingIndicator(),
-            starting: (instance) => const LoadingIndicator(),
+            loading: (op) => OperationView(
+              id: op.id,
+              onCancel: () => ref.read(lxdClient).cancelOperation(op.id),
+            ),
             running: (instance, terminal) => TerminalView(
               instance: instance,
               terminal: terminal,

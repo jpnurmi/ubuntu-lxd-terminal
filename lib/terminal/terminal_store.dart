@@ -64,24 +64,34 @@ class TerminalStore extends StateNotifier<List<TerminalState>> {
   Future<void> create(LxdRemoteImage image, [String? name]) async {
     final client = _read(lxdClient);
 
-    _setCurrentState(TerminalState.creating(image: image, name: name));
+    final create = await client.createInstance(image: image, name: name);
 
-    final op = await client.createInstance(image: image, name: name);
-    await client.waitOperation(op.id);
+    _setCurrentState(TerminalState.loading(create));
 
-    name = (op.resources['instances'].single as String).split('/').last;
-    return start(await client.getInstance(name));
+    final wait = await client.waitOperation(create.id);
+
+    if (wait.statusCode == LxdStatusCode.cancelled.value) {
+      reset();
+    } else {
+      name = (create.resources['instances'].single as String).split('/').last;
+      return start(await client.getInstance(name));
+    }
   }
 
   Future<void> start(LxdInstance instance) async {
     final client = _read(lxdClient);
 
-    _setCurrentState(TerminalState.starting(instance));
+    final start = await client.startInstance(instance.name);
 
-    final op = await client.startInstance(instance.name);
-    await client.waitOperation(op.id);
+    _setCurrentState(TerminalState.loading(start));
 
-    return run(instance);
+    final wait = await client.waitOperation(start.id);
+
+    if (wait.statusCode == LxdStatusCode.cancelled.value) {
+      reset();
+    } else {
+      return run(instance);
+    }
   }
 
   Future<void> run(LxdInstance instance) async {

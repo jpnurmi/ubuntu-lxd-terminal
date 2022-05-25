@@ -20,8 +20,7 @@ mixin _$TerminalState {
   TResult when<TResult extends Object?>({
     required TResult Function() none,
     required TResult Function(String? message) error,
-    required TResult Function(LxdRemoteImage image, String? name) creating,
-    required TResult Function(LxdInstance instance) starting,
+    required TResult Function(LxdOperation operation) loading,
     required TResult Function(LxdInstance instance, Terminal terminal) running,
   }) =>
       throw _privateConstructorUsedError;
@@ -29,8 +28,7 @@ mixin _$TerminalState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? none,
     TResult Function(String? message)? error,
-    TResult Function(LxdRemoteImage image, String? name)? creating,
-    TResult Function(LxdInstance instance)? starting,
+    TResult Function(LxdOperation operation)? loading,
     TResult Function(LxdInstance instance, Terminal terminal)? running,
   }) =>
       throw _privateConstructorUsedError;
@@ -38,8 +36,7 @@ mixin _$TerminalState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? none,
     TResult Function(String? message)? error,
-    TResult Function(LxdRemoteImage image, String? name)? creating,
-    TResult Function(LxdInstance instance)? starting,
+    TResult Function(LxdOperation operation)? loading,
     TResult Function(LxdInstance instance, Terminal terminal)? running,
     required TResult orElse(),
   }) =>
@@ -48,8 +45,7 @@ mixin _$TerminalState {
   TResult map<TResult extends Object?>({
     required TResult Function(TerminalNone value) none,
     required TResult Function(TerminalError value) error,
-    required TResult Function(TerminalCreating value) creating,
-    required TResult Function(TerminalStarting value) starting,
+    required TResult Function(TerminalLoading value) loading,
     required TResult Function(TerminalRunning value) running,
   }) =>
       throw _privateConstructorUsedError;
@@ -57,8 +53,7 @@ mixin _$TerminalState {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(TerminalNone value)? none,
     TResult Function(TerminalError value)? error,
-    TResult Function(TerminalCreating value)? creating,
-    TResult Function(TerminalStarting value)? starting,
+    TResult Function(TerminalLoading value)? loading,
     TResult Function(TerminalRunning value)? running,
   }) =>
       throw _privateConstructorUsedError;
@@ -66,8 +61,7 @@ mixin _$TerminalState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TerminalNone value)? none,
     TResult Function(TerminalError value)? error,
-    TResult Function(TerminalCreating value)? creating,
-    TResult Function(TerminalStarting value)? starting,
+    TResult Function(TerminalLoading value)? loading,
     TResult Function(TerminalRunning value)? running,
     required TResult orElse(),
   }) =>
@@ -134,8 +128,7 @@ class _$TerminalNone implements TerminalNone {
   TResult when<TResult extends Object?>({
     required TResult Function() none,
     required TResult Function(String? message) error,
-    required TResult Function(LxdRemoteImage image, String? name) creating,
-    required TResult Function(LxdInstance instance) starting,
+    required TResult Function(LxdOperation operation) loading,
     required TResult Function(LxdInstance instance, Terminal terminal) running,
   }) {
     return none();
@@ -146,8 +139,7 @@ class _$TerminalNone implements TerminalNone {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? none,
     TResult Function(String? message)? error,
-    TResult Function(LxdRemoteImage image, String? name)? creating,
-    TResult Function(LxdInstance instance)? starting,
+    TResult Function(LxdOperation operation)? loading,
     TResult Function(LxdInstance instance, Terminal terminal)? running,
   }) {
     return none?.call();
@@ -158,8 +150,7 @@ class _$TerminalNone implements TerminalNone {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? none,
     TResult Function(String? message)? error,
-    TResult Function(LxdRemoteImage image, String? name)? creating,
-    TResult Function(LxdInstance instance)? starting,
+    TResult Function(LxdOperation operation)? loading,
     TResult Function(LxdInstance instance, Terminal terminal)? running,
     required TResult orElse(),
   }) {
@@ -174,8 +165,7 @@ class _$TerminalNone implements TerminalNone {
   TResult map<TResult extends Object?>({
     required TResult Function(TerminalNone value) none,
     required TResult Function(TerminalError value) error,
-    required TResult Function(TerminalCreating value) creating,
-    required TResult Function(TerminalStarting value) starting,
+    required TResult Function(TerminalLoading value) loading,
     required TResult Function(TerminalRunning value) running,
   }) {
     return none(this);
@@ -186,8 +176,7 @@ class _$TerminalNone implements TerminalNone {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(TerminalNone value)? none,
     TResult Function(TerminalError value)? error,
-    TResult Function(TerminalCreating value)? creating,
-    TResult Function(TerminalStarting value)? starting,
+    TResult Function(TerminalLoading value)? loading,
     TResult Function(TerminalRunning value)? running,
   }) {
     return none?.call(this);
@@ -198,8 +187,7 @@ class _$TerminalNone implements TerminalNone {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TerminalNone value)? none,
     TResult Function(TerminalError value)? error,
-    TResult Function(TerminalCreating value)? creating,
-    TResult Function(TerminalStarting value)? starting,
+    TResult Function(TerminalLoading value)? loading,
     TResult Function(TerminalRunning value)? running,
     required TResult orElse(),
   }) {
@@ -281,8 +269,7 @@ class _$TerminalError implements TerminalError {
   TResult when<TResult extends Object?>({
     required TResult Function() none,
     required TResult Function(String? message) error,
-    required TResult Function(LxdRemoteImage image, String? name) creating,
-    required TResult Function(LxdInstance instance) starting,
+    required TResult Function(LxdOperation operation) loading,
     required TResult Function(LxdInstance instance, Terminal terminal) running,
   }) {
     return error(message);
@@ -293,8 +280,7 @@ class _$TerminalError implements TerminalError {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? none,
     TResult Function(String? message)? error,
-    TResult Function(LxdRemoteImage image, String? name)? creating,
-    TResult Function(LxdInstance instance)? starting,
+    TResult Function(LxdOperation operation)? loading,
     TResult Function(LxdInstance instance, Terminal terminal)? running,
   }) {
     return error?.call(message);
@@ -305,8 +291,7 @@ class _$TerminalError implements TerminalError {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? none,
     TResult Function(String? message)? error,
-    TResult Function(LxdRemoteImage image, String? name)? creating,
-    TResult Function(LxdInstance instance)? starting,
+    TResult Function(LxdOperation operation)? loading,
     TResult Function(LxdInstance instance, Terminal terminal)? running,
     required TResult orElse(),
   }) {
@@ -321,8 +306,7 @@ class _$TerminalError implements TerminalError {
   TResult map<TResult extends Object?>({
     required TResult Function(TerminalNone value) none,
     required TResult Function(TerminalError value) error,
-    required TResult Function(TerminalCreating value) creating,
-    required TResult Function(TerminalStarting value) starting,
+    required TResult Function(TerminalLoading value) loading,
     required TResult Function(TerminalRunning value) running,
   }) {
     return error(this);
@@ -333,8 +317,7 @@ class _$TerminalError implements TerminalError {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(TerminalNone value)? none,
     TResult Function(TerminalError value)? error,
-    TResult Function(TerminalCreating value)? creating,
-    TResult Function(TerminalStarting value)? starting,
+    TResult Function(TerminalLoading value)? loading,
     TResult Function(TerminalRunning value)? running,
   }) {
     return error?.call(this);
@@ -345,8 +328,7 @@ class _$TerminalError implements TerminalError {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TerminalNone value)? none,
     TResult Function(TerminalError value)? error,
-    TResult Function(TerminalCreating value)? creating,
-    TResult Function(TerminalStarting value)? starting,
+    TResult Function(TerminalLoading value)? loading,
     TResult Function(TerminalRunning value)? running,
     required TResult orElse(),
   }) {
@@ -367,251 +349,85 @@ abstract class TerminalError implements TerminalState {
 }
 
 /// @nodoc
-abstract class _$$TerminalCreatingCopyWith<$Res> {
-  factory _$$TerminalCreatingCopyWith(
-          _$TerminalCreating value, $Res Function(_$TerminalCreating) then) =
-      __$$TerminalCreatingCopyWithImpl<$Res>;
-  $Res call({LxdRemoteImage image, String? name});
+abstract class _$$TerminalLoadingCopyWith<$Res> {
+  factory _$$TerminalLoadingCopyWith(
+          _$TerminalLoading value, $Res Function(_$TerminalLoading) then) =
+      __$$TerminalLoadingCopyWithImpl<$Res>;
+  $Res call({LxdOperation operation});
+
+  $LxdOperationCopyWith<$Res> get operation;
 }
 
 /// @nodoc
-class __$$TerminalCreatingCopyWithImpl<$Res>
+class __$$TerminalLoadingCopyWithImpl<$Res>
     extends _$TerminalStateCopyWithImpl<$Res>
-    implements _$$TerminalCreatingCopyWith<$Res> {
-  __$$TerminalCreatingCopyWithImpl(
-      _$TerminalCreating _value, $Res Function(_$TerminalCreating) _then)
-      : super(_value, (v) => _then(v as _$TerminalCreating));
+    implements _$$TerminalLoadingCopyWith<$Res> {
+  __$$TerminalLoadingCopyWithImpl(
+      _$TerminalLoading _value, $Res Function(_$TerminalLoading) _then)
+      : super(_value, (v) => _then(v as _$TerminalLoading));
 
   @override
-  _$TerminalCreating get _value => super._value as _$TerminalCreating;
+  _$TerminalLoading get _value => super._value as _$TerminalLoading;
 
   @override
   $Res call({
-    Object? image = freezed,
-    Object? name = freezed,
+    Object? operation = freezed,
   }) {
-    return _then(_$TerminalCreating(
-      image: image == freezed
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as LxdRemoteImage,
-      name: name == freezed
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$TerminalCreating implements TerminalCreating {
-  const _$TerminalCreating({required this.image, required this.name});
-
-  @override
-  final LxdRemoteImage image;
-  @override
-  final String? name;
-
-  @override
-  String toString() {
-    return 'TerminalState.creating(image: $image, name: $name)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TerminalCreating &&
-            const DeepCollectionEquality().equals(other.image, image) &&
-            const DeepCollectionEquality().equals(other.name, name));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(image),
-      const DeepCollectionEquality().hash(name));
-
-  @JsonKey(ignore: true)
-  @override
-  _$$TerminalCreatingCopyWith<_$TerminalCreating> get copyWith =>
-      __$$TerminalCreatingCopyWithImpl<_$TerminalCreating>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() none,
-    required TResult Function(String? message) error,
-    required TResult Function(LxdRemoteImage image, String? name) creating,
-    required TResult Function(LxdInstance instance) starting,
-    required TResult Function(LxdInstance instance, Terminal terminal) running,
-  }) {
-    return creating(image, name);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? none,
-    TResult Function(String? message)? error,
-    TResult Function(LxdRemoteImage image, String? name)? creating,
-    TResult Function(LxdInstance instance)? starting,
-    TResult Function(LxdInstance instance, Terminal terminal)? running,
-  }) {
-    return creating?.call(image, name);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? none,
-    TResult Function(String? message)? error,
-    TResult Function(LxdRemoteImage image, String? name)? creating,
-    TResult Function(LxdInstance instance)? starting,
-    TResult Function(LxdInstance instance, Terminal terminal)? running,
-    required TResult orElse(),
-  }) {
-    if (creating != null) {
-      return creating(image, name);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TerminalNone value) none,
-    required TResult Function(TerminalError value) error,
-    required TResult Function(TerminalCreating value) creating,
-    required TResult Function(TerminalStarting value) starting,
-    required TResult Function(TerminalRunning value) running,
-  }) {
-    return creating(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(TerminalNone value)? none,
-    TResult Function(TerminalError value)? error,
-    TResult Function(TerminalCreating value)? creating,
-    TResult Function(TerminalStarting value)? starting,
-    TResult Function(TerminalRunning value)? running,
-  }) {
-    return creating?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TerminalNone value)? none,
-    TResult Function(TerminalError value)? error,
-    TResult Function(TerminalCreating value)? creating,
-    TResult Function(TerminalStarting value)? starting,
-    TResult Function(TerminalRunning value)? running,
-    required TResult orElse(),
-  }) {
-    if (creating != null) {
-      return creating(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class TerminalCreating implements TerminalState {
-  const factory TerminalCreating(
-      {required final LxdRemoteImage image,
-      required final String? name}) = _$TerminalCreating;
-
-  LxdRemoteImage get image => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  _$$TerminalCreatingCopyWith<_$TerminalCreating> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$TerminalStartingCopyWith<$Res> {
-  factory _$$TerminalStartingCopyWith(
-          _$TerminalStarting value, $Res Function(_$TerminalStarting) then) =
-      __$$TerminalStartingCopyWithImpl<$Res>;
-  $Res call({LxdInstance instance});
-
-  $LxdInstanceCopyWith<$Res> get instance;
-}
-
-/// @nodoc
-class __$$TerminalStartingCopyWithImpl<$Res>
-    extends _$TerminalStateCopyWithImpl<$Res>
-    implements _$$TerminalStartingCopyWith<$Res> {
-  __$$TerminalStartingCopyWithImpl(
-      _$TerminalStarting _value, $Res Function(_$TerminalStarting) _then)
-      : super(_value, (v) => _then(v as _$TerminalStarting));
-
-  @override
-  _$TerminalStarting get _value => super._value as _$TerminalStarting;
-
-  @override
-  $Res call({
-    Object? instance = freezed,
-  }) {
-    return _then(_$TerminalStarting(
-      instance == freezed
-          ? _value.instance
-          : instance // ignore: cast_nullable_to_non_nullable
-              as LxdInstance,
+    return _then(_$TerminalLoading(
+      operation == freezed
+          ? _value.operation
+          : operation // ignore: cast_nullable_to_non_nullable
+              as LxdOperation,
     ));
   }
 
   @override
-  $LxdInstanceCopyWith<$Res> get instance {
-    return $LxdInstanceCopyWith<$Res>(_value.instance, (value) {
-      return _then(_value.copyWith(instance: value));
+  $LxdOperationCopyWith<$Res> get operation {
+    return $LxdOperationCopyWith<$Res>(_value.operation, (value) {
+      return _then(_value.copyWith(operation: value));
     });
   }
 }
 
 /// @nodoc
 
-class _$TerminalStarting implements TerminalStarting {
-  const _$TerminalStarting(this.instance);
+class _$TerminalLoading implements TerminalLoading {
+  const _$TerminalLoading(this.operation);
 
   @override
-  final LxdInstance instance;
+  final LxdOperation operation;
 
   @override
   String toString() {
-    return 'TerminalState.starting(instance: $instance)';
+    return 'TerminalState.loading(operation: $operation)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TerminalStarting &&
-            const DeepCollectionEquality().equals(other.instance, instance));
+            other is _$TerminalLoading &&
+            const DeepCollectionEquality().equals(other.operation, operation));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(instance));
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(operation));
 
   @JsonKey(ignore: true)
   @override
-  _$$TerminalStartingCopyWith<_$TerminalStarting> get copyWith =>
-      __$$TerminalStartingCopyWithImpl<_$TerminalStarting>(this, _$identity);
+  _$$TerminalLoadingCopyWith<_$TerminalLoading> get copyWith =>
+      __$$TerminalLoadingCopyWithImpl<_$TerminalLoading>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() none,
     required TResult Function(String? message) error,
-    required TResult Function(LxdRemoteImage image, String? name) creating,
-    required TResult Function(LxdInstance instance) starting,
+    required TResult Function(LxdOperation operation) loading,
     required TResult Function(LxdInstance instance, Terminal terminal) running,
   }) {
-    return starting(instance);
+    return loading(operation);
   }
 
   @override
@@ -619,11 +435,10 @@ class _$TerminalStarting implements TerminalStarting {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? none,
     TResult Function(String? message)? error,
-    TResult Function(LxdRemoteImage image, String? name)? creating,
-    TResult Function(LxdInstance instance)? starting,
+    TResult Function(LxdOperation operation)? loading,
     TResult Function(LxdInstance instance, Terminal terminal)? running,
   }) {
-    return starting?.call(instance);
+    return loading?.call(operation);
   }
 
   @override
@@ -631,13 +446,12 @@ class _$TerminalStarting implements TerminalStarting {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? none,
     TResult Function(String? message)? error,
-    TResult Function(LxdRemoteImage image, String? name)? creating,
-    TResult Function(LxdInstance instance)? starting,
+    TResult Function(LxdOperation operation)? loading,
     TResult Function(LxdInstance instance, Terminal terminal)? running,
     required TResult orElse(),
   }) {
-    if (starting != null) {
-      return starting(instance);
+    if (loading != null) {
+      return loading(operation);
     }
     return orElse();
   }
@@ -647,11 +461,10 @@ class _$TerminalStarting implements TerminalStarting {
   TResult map<TResult extends Object?>({
     required TResult Function(TerminalNone value) none,
     required TResult Function(TerminalError value) error,
-    required TResult Function(TerminalCreating value) creating,
-    required TResult Function(TerminalStarting value) starting,
+    required TResult Function(TerminalLoading value) loading,
     required TResult Function(TerminalRunning value) running,
   }) {
-    return starting(this);
+    return loading(this);
   }
 
   @override
@@ -659,11 +472,10 @@ class _$TerminalStarting implements TerminalStarting {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(TerminalNone value)? none,
     TResult Function(TerminalError value)? error,
-    TResult Function(TerminalCreating value)? creating,
-    TResult Function(TerminalStarting value)? starting,
+    TResult Function(TerminalLoading value)? loading,
     TResult Function(TerminalRunning value)? running,
   }) {
-    return starting?.call(this);
+    return loading?.call(this);
   }
 
   @override
@@ -671,25 +483,24 @@ class _$TerminalStarting implements TerminalStarting {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TerminalNone value)? none,
     TResult Function(TerminalError value)? error,
-    TResult Function(TerminalCreating value)? creating,
-    TResult Function(TerminalStarting value)? starting,
+    TResult Function(TerminalLoading value)? loading,
     TResult Function(TerminalRunning value)? running,
     required TResult orElse(),
   }) {
-    if (starting != null) {
-      return starting(this);
+    if (loading != null) {
+      return loading(this);
     }
     return orElse();
   }
 }
 
-abstract class TerminalStarting implements TerminalState {
-  const factory TerminalStarting(final LxdInstance instance) =
-      _$TerminalStarting;
+abstract class TerminalLoading implements TerminalState {
+  const factory TerminalLoading(final LxdOperation operation) =
+      _$TerminalLoading;
 
-  LxdInstance get instance => throw _privateConstructorUsedError;
+  LxdOperation get operation => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  _$$TerminalStartingCopyWith<_$TerminalStarting> get copyWith =>
+  _$$TerminalLoadingCopyWith<_$TerminalLoading> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -779,8 +590,7 @@ class _$TerminalRunning implements TerminalRunning {
   TResult when<TResult extends Object?>({
     required TResult Function() none,
     required TResult Function(String? message) error,
-    required TResult Function(LxdRemoteImage image, String? name) creating,
-    required TResult Function(LxdInstance instance) starting,
+    required TResult Function(LxdOperation operation) loading,
     required TResult Function(LxdInstance instance, Terminal terminal) running,
   }) {
     return running(instance, terminal);
@@ -791,8 +601,7 @@ class _$TerminalRunning implements TerminalRunning {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? none,
     TResult Function(String? message)? error,
-    TResult Function(LxdRemoteImage image, String? name)? creating,
-    TResult Function(LxdInstance instance)? starting,
+    TResult Function(LxdOperation operation)? loading,
     TResult Function(LxdInstance instance, Terminal terminal)? running,
   }) {
     return running?.call(instance, terminal);
@@ -803,8 +612,7 @@ class _$TerminalRunning implements TerminalRunning {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? none,
     TResult Function(String? message)? error,
-    TResult Function(LxdRemoteImage image, String? name)? creating,
-    TResult Function(LxdInstance instance)? starting,
+    TResult Function(LxdOperation operation)? loading,
     TResult Function(LxdInstance instance, Terminal terminal)? running,
     required TResult orElse(),
   }) {
@@ -819,8 +627,7 @@ class _$TerminalRunning implements TerminalRunning {
   TResult map<TResult extends Object?>({
     required TResult Function(TerminalNone value) none,
     required TResult Function(TerminalError value) error,
-    required TResult Function(TerminalCreating value) creating,
-    required TResult Function(TerminalStarting value) starting,
+    required TResult Function(TerminalLoading value) loading,
     required TResult Function(TerminalRunning value) running,
   }) {
     return running(this);
@@ -831,8 +638,7 @@ class _$TerminalRunning implements TerminalRunning {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(TerminalNone value)? none,
     TResult Function(TerminalError value)? error,
-    TResult Function(TerminalCreating value)? creating,
-    TResult Function(TerminalStarting value)? starting,
+    TResult Function(TerminalLoading value)? loading,
     TResult Function(TerminalRunning value)? running,
   }) {
     return running?.call(this);
@@ -843,8 +649,7 @@ class _$TerminalRunning implements TerminalRunning {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(TerminalNone value)? none,
     TResult Function(TerminalError value)? error,
-    TResult Function(TerminalCreating value)? creating,
-    TResult Function(TerminalStarting value)? starting,
+    TResult Function(TerminalLoading value)? loading,
     TResult Function(TerminalRunning value)? running,
     required TResult orElse(),
   }) {
