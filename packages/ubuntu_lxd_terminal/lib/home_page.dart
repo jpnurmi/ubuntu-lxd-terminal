@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movable_tabs/movable_tabs.dart';
 
 import 'launch_view.dart';
 import 'lxd.dart';
 import 'operations/operation_view.dart';
 import 'terminal/terminal_store.dart';
 import 'terminal/terminal_view.dart';
-import 'widgets/movable_tabs.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
