@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:lxd/lxd.dart';
+import 'package:lxd_x/lxd_x.dart';
 import 'package:xterm/xterm.dart';
 
 part 'terminal_state.freezed.dart';

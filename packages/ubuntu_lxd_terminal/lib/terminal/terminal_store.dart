@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lxd/lxd.dart';
+import 'package:lxd_x/lxd_x.dart';
 import 'package:xterm/xterm.dart';
 
 import '../lxd.dart';

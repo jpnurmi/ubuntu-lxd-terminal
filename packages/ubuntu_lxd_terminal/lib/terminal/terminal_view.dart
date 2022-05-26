@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lxd/lxd.dart';
+import 'package:lxd_x/lxd_x.dart';
 import 'package:xterm/flutter.dart' as x;
 import 'package:xterm/xterm.dart' as x;
 

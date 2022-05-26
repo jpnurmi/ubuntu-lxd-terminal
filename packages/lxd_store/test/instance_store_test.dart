@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:lxd/lxd.dart';
 import 'package:lxd_store/lxd_store.dart';
+import 'package:lxd_x/lxd_x.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';

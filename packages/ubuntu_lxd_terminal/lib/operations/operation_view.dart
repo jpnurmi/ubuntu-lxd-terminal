@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lxd/lxd.dart';
+import 'package:lxd_x/lxd_x.dart';
 
-import '../lxd.dart';
 import 'operation_events.dart';
+import 'operation_x.dart';
 
 class OperationView extends ConsumerWidget {
   const OperationView({super.key, required this.id, this.onCancel});

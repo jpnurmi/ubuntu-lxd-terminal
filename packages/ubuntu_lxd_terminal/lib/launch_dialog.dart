@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lxd/lxd.dart';
+import 'package:lxd_x/lxd_x.dart';
 
 import '../remote_images/remote_image_store.dart';
 import '../remote_images/remote_image_view.dart';

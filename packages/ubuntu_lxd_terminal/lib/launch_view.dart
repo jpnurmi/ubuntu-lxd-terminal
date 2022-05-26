@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lxd/lxd.dart';
+import 'package:lxd_x/lxd_x.dart';
 
 import 'instances/instance_view.dart';
 import 'launch_dialog.dart';

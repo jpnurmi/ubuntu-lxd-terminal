@@ -1,7 +1,7 @@
 import 'package:data_size/data_size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lxd/lxd.dart';
+import 'package:lxd_x/lxd_x.dart';
 
 import '../widgets/loading_indicator.dart';
 import 'remote_image_store.dart';

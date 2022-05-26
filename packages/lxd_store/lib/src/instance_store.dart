@@ -1,9 +1,7 @@
 import 'dart:async';
 
-import 'package:lxd/lxd.dart';
+import 'package:lxd_x/lxd_x.dart';
 import 'package:rxdart/rxdart.dart';
-
-import 'lxd_x.dart';
 
 abstract class InstanceStore {
   factory InstanceStore(LxdClient client) => _LxdInstanceStore(client);

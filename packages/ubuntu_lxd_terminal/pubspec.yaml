@@ -13,10 +13,10 @@ dependencies:
     sdk: flutter
   flutter_riverpod: ^2.0.0-0
   freezed_annotation: ^2.0.3
-  lxd:
-    git:
-      url: https://github.com/jpnurmi/lxd.dart
-      ref: dev
+  lxd_store:
+    path: ../lxd_store
+  lxd_x:
+    path: ../lxd_x
   meta: ^1.7.0
   movable_tabs:
     path: ../movable_tabs
