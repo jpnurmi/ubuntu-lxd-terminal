@@ -1,12 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lxd_service/lxd_service.dart';
 import 'package:lxd_x/lxd_x.dart';
-
-import '../lxd.dart';
 
 final instanceOperations =
     StreamProvider.autoDispose.family<LxdOperation, String>((ref, id) {
-  final client = ref.watch(lxdClient);
-  return client
+  final service = getService<LxdService>();
+  return service
       .getEvents()
       .where((event) => event.isOperation && event.metadata?['id'] == id)
       .map((event) => LxdOperation.fromJson(event.metadata!));

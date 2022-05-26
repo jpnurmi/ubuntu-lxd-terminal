@@ -1,13 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lxd_service/lxd_service.dart';
 import 'package:lxd_store/lxd_store.dart';
 import 'package:lxd_x/lxd_x.dart';
 
-import '../lxd.dart';
-
 final instanceStore = Provider.autoDispose<InstanceStore>((ref) {
-  final client = ref.watch(lxdClient);
-  ref.onDispose(client.close);
-  return InstanceStore(client);
+  final service = getService<LxdService>();
+  ref.onDispose(service.close);
+  return InstanceStore(service);
 });
 
 final instanceStream = StreamProvider.autoDispose<List<String>>((ref) async* {
@@ -25,7 +24,7 @@ final instanceUpdated =
 
 final instanceState =
     FutureProvider.autoDispose.family<LxdInstance, String>((ref, name) {
-  final client = ref.watch(lxdClient);
+  final service = getService<LxdService>();
   ref.watch(instanceUpdated(name));
-  return client.getInstance(name);
+  return service.getInstance(name);
 });

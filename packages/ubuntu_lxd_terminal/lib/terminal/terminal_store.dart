@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lxd_service/lxd_service.dart';
 import 'package:lxd_x/lxd_x.dart';
 import 'package:xterm/xterm.dart';
 
-import '../lxd.dart';
 import 'terminal_backend.dart';
 import 'terminal_settings.dart';
 import 'terminal_state.dart';
@@ -62,13 +62,13 @@ class TerminalStore extends StateNotifier<List<TerminalState>> {
   }
 
   Future<void> create(LxdRemoteImage image, [String? name]) async {
-    final client = _read(lxdClient);
+    final service = getService<LxdService>();
 
-    final create = await client.createInstance(image: image, name: name);
+    final create = await service.createInstance(image: image, name: name);
 
     _setCurrentState(TerminalState.loading(create));
 
-    final wait = await client.waitOperation(create.id);
+    final wait = await service.waitOperation(create.id);
 
     if (wait.statusCode == LxdStatusCode.cancelled.value) {
       reset();
@@ -79,13 +79,13 @@ class TerminalStore extends StateNotifier<List<TerminalState>> {
   }
 
   Future<void> start(String name) async {
-    final client = _read(lxdClient);
+    final service = getService<LxdService>();
 
-    final start = await client.startInstance(name);
+    final start = await service.startInstance(name);
 
     _setCurrentState(TerminalState.loading(start));
 
-    final wait = await client.waitOperation(start.id);
+    final wait = await service.waitOperation(start.id);
 
     if (wait.statusCode == LxdStatusCode.cancelled.value) {
       reset();
@@ -95,16 +95,16 @@ class TerminalStore extends StateNotifier<List<TerminalState>> {
   }
 
   Future<void> run(String name) async {
-    final client = _read(lxdClient);
+    final service = getService<LxdService>();
 
-    final instance = await client.getInstance(name);
+    final instance = await service.getInstance(name);
 
     _setCurrentState(
       TerminalState.running(
         instance: instance,
         terminal: Terminal(
           backend: LxdTerminalBackend(
-            client: client,
+            client: service,
             instance: instance.name,
             onExit: reset,
           ),

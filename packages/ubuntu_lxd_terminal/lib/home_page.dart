@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lxd_service/lxd_service.dart';
 import 'package:movable_tabs/movable_tabs.dart';
 import 'package:native_context_menu/native_context_menu.dart' as n;
 
 import 'launch_view.dart';
-import 'lxd.dart';
 import 'operations/operation_view.dart';
 import 'terminal/terminal_state.dart';
 import 'terminal/terminal_store.dart';
@@ -101,12 +101,12 @@ class HomePage extends ConsumerWidget {
               none: () => LaunchView(
                 onStart: ref.read(terminalStore.notifier).start,
                 onCreate: ref.read(terminalStore.notifier).create,
-                onDelete: ref.read(lxdClient).deleteInstance,
-                onStop: ref.read(lxdClient).stopInstance,
+                onDelete: getService<LxdService>().deleteInstance,
+                onStop: getService<LxdService>().stopInstance,
               ),
               loading: (op) => OperationView(
                 id: op.id,
-                onCancel: () => ref.read(lxdClient).cancelOperation(op.id),
+                onCancel: () => getService<LxdService>().cancelOperation(op.id),
               ),
               running: (instance, terminal) => TerminalView(
                 instance: instance,

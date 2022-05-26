@@ -1,0 +1,14 @@
+name: lxd_service
+publish_to: 'none'
+
+environment:
+  sdk: '>=2.17.0 <3.0.0'
+
+dependencies:
+  get_it: ^7.2.0
+  lxd_x:
+    path: ../lxd_x
+  meta: ^1.7.0
+
+dev_dependencies:
+  lints: ^2.0.0
