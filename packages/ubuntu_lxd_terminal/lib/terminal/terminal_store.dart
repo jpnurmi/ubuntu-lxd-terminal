@@ -74,14 +74,14 @@ class TerminalStore extends StateNotifier<List<TerminalState>> {
       reset();
     } else {
       name = (create.resources['instances'].single as String).split('/').last;
-      return start(await client.getInstance(name));
+      return start(name);
     }
   }
 
-  Future<void> start(LxdInstance instance) async {
+  Future<void> start(String name) async {
     final client = _read(lxdClient);
 
-    final start = await client.startInstance(instance.name);
+    final start = await client.startInstance(name);
 
     _setCurrentState(TerminalState.loading(start));
 
@@ -90,12 +90,14 @@ class TerminalStore extends StateNotifier<List<TerminalState>> {
     if (wait.statusCode == LxdStatusCode.cancelled.value) {
       reset();
     } else {
-      return run(instance);
+      return run(name);
     }
   }
 
-  Future<void> run(LxdInstance instance) async {
+  Future<void> run(String name) async {
     final client = _read(lxdClient);
+
+    final instance = await client.getInstance(name);
 
     _setCurrentState(
       TerminalState.running(

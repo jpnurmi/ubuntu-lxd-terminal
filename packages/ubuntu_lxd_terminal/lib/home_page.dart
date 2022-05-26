@@ -101,8 +101,8 @@ class HomePage extends ConsumerWidget {
               none: () => LaunchView(
                 onStart: ref.read(terminalStore.notifier).start,
                 onCreate: ref.read(terminalStore.notifier).create,
-                onDelete: (i) => ref.read(lxdClient).deleteInstance(i.name),
-                onStop: (i) => ref.read(lxdClient).stopInstance(i.name),
+                onDelete: ref.read(lxdClient).deleteInstance,
+                onStop: ref.read(lxdClient).stopInstance,
               ),
               loading: (op) => OperationView(
                 id: op.id,

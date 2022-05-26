@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lxd_x/lxd_x.dart';
 
-import 'instance_store.dart';
+import 'instance_provider.dart';
 
 class InstanceView extends ConsumerWidget {
   const InstanceView({
@@ -13,14 +13,14 @@ class InstanceView extends ConsumerWidget {
     this.onDelete,
   });
 
-  final LxdInstance? selected;
-  final ValueChanged<LxdInstance>? onSelect;
-  final ValueChanged<LxdInstance>? onStop;
-  final ValueChanged<LxdInstance>? onDelete;
+  final String? selected;
+  final ValueChanged<String>? onSelect;
+  final ValueChanged<String>? onStop;
+  final ValueChanged<String>? onDelete;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final instances = ref.watch(instanceStore);
+    final instances = ref.watch(instanceStream);
     return instances.map(
       data: (data) => _InstanceListView(
         instances: data.value,
@@ -50,31 +50,57 @@ class _InstanceListView extends StatelessWidget {
     this.onDelete,
   });
 
-  final List<LxdInstance>? instances;
-  final LxdInstance? selected;
-  final ValueChanged<LxdInstance>? onSelect;
-  final ValueChanged<LxdInstance>? onStop;
-  final ValueChanged<LxdInstance>? onDelete;
+  final List<String>? instances;
+  final String? selected;
+  final ValueChanged<String>? onSelect;
+  final ValueChanged<String>? onStop;
+  final ValueChanged<String>? onDelete;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: instances?.length ?? 0,
       itemBuilder: (context, index) {
-        final instance = instances![index];
-        final canStop = onStop != null && instance.isRunning;
-        final canDelete = onDelete != null && instance.isStopped;
-        return ListTile(
-          title: Text(instance.name),
-          subtitle: Text(instance.status),
-          trailing: canStop
-              ? _StopButton(() => onStop!.call(instance))
-              : canDelete
-                  ? _DeleteButton(() => onDelete!.call(instance))
-                  : null,
-          onTap: () => onSelect?.call(instance),
+        final name = instances![index];
+        return _InstanceListTile(
+          name: name,
+          onSelect: onSelect != null ? () => onSelect!(name) : null,
+          onStop: onStop != null ? () => onStop!(name) : null,
+          onDelete: onDelete != null ? () => onDelete!(name) : null,
         );
       },
+    );
+  }
+}
+
+class _InstanceListTile extends ConsumerWidget {
+  const _InstanceListTile({
+    required this.name,
+    this.onSelect,
+    this.onStop,
+    this.onDelete,
+  });
+
+  final String name;
+  final VoidCallback? onSelect;
+  final VoidCallback? onStop;
+  final VoidCallback? onDelete;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final instance = ref.watch(instanceState(name));
+    final canStop = onStop != null && instance.valueOrNull?.isRunning == true;
+    final canDelete =
+        onDelete != null && instance.valueOrNull?.isStopped == true;
+    return ListTile(
+      title: Text(instance.valueOrNull?.name ?? ''),
+      subtitle: Text(instance.valueOrNull?.status ?? ''),
+      trailing: canStop
+          ? _StopButton(onStop!)
+          : canDelete
+              ? _DeleteButton(onDelete!)
+              : null,
+      onTap: onSelect,
     );
   }
 }

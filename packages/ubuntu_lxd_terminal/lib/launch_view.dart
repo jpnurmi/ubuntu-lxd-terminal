@@ -16,9 +16,9 @@ class LaunchView extends StatelessWidget {
   });
 
   final OnCreateCallback? onCreate;
-  final ValueChanged<LxdInstance>? onStart;
-  final ValueChanged<LxdInstance>? onStop;
-  final ValueChanged<LxdInstance>? onDelete;
+  final ValueChanged<String>? onStart;
+  final ValueChanged<String>? onStop;
+  final ValueChanged<String>? onDelete;
 
   @override
   Widget build(BuildContext context) {
