@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lxd_service/lxd_service.dart';
 import 'package:lxd_x/lxd_x.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 
 const _kDefaultUrl = 'https://cloud-images.ubuntu.com/releases';
 

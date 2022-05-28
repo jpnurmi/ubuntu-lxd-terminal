@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lxd_service/lxd_service.dart';
 import 'package:movable_tabs/movable_tabs.dart';
 import 'package:native_context_menu/native_context_menu.dart' as n;
+import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'home_controller.dart';
 import 'launch_view.dart';

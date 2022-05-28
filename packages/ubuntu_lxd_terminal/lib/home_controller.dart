@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lxd_service/lxd_service.dart';
 import 'package:lxd_x/lxd_x.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 import 'package:xterm/xterm.dart';
 
 import 'terminal/terminal_backend.dart';
