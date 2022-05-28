@@ -11,7 +11,6 @@ import 'home_controller.dart';
 import 'launch_view.dart';
 import 'operations/operation_view.dart';
 import 'terminal/terminal_settings.dart';
-import 'terminal/terminal_state.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -20,6 +19,7 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(homeController);
     final current = controller.currentTerminal;
+    final running = controller.currentRunning;
 
     return CallbackShortcuts(
       bindings: {
@@ -69,17 +69,51 @@ class HomePage extends ConsumerWidget {
                       ),
                     );
                   },
+                  trailing: PopupMenuButton(
+                    icon: const Icon(Icons.more_vert),
+                    splashRadius: 16,
+                    iconSize: 16,
+                    itemBuilder: (context) {
+                      return <PopupMenuEntry>[
+                        PopupMenuItem(
+                          onTap: controller.add,
+                          child: const Text('New Tab'),
+                        ),
+                        PopupMenuItem(
+                          onTap: controller.close,
+                          enabled: controller.length > 1,
+                          child: const Text('Close Tab'),
+                        ),
+                        const PopupMenuDivider(),
+                        PopupMenuItem(
+                          onTap: controller.copy,
+                          enabled: running?.selectedText?.isNotEmpty == true,
+                          child: const Text('Copy'),
+                        ),
+                        PopupMenuItem(
+                          onTap: controller.paste,
+                          enabled: running != null,
+                          child: const Text('Paste'),
+                        ),
+                        PopupMenuItem(
+                          onTap: controller.selectAll,
+                          enabled: running != null,
+                          child: const Text('Select All'),
+                        ),
+                      ];
+                    },
+                  ),
                   onMoved: controller.move,
                   preferredHeight: Theme.of(context).appBarTheme.toolbarHeight,
                 ),
           body: n.ContextMenuRegion(
             onItemSelected: (dynamic item) => item.action?.call(),
             menuItems: <n.MenuItem>[
-              if (current is TerminalRunning)
+              if (running?.selectedText?.isNotEmpty == true)
                 n.MenuItem(title: 'Copy', action: controller.copy),
-              if (current is TerminalRunning)
+              if (running != null)
                 n.MenuItem(title: 'Paste', action: controller.paste),
-              if (current is TerminalRunning)
+              if (running != null)
                 n.MenuItem(title: 'Select All', action: controller.selectAll),
               n.MenuItem(title: 'New Tab', action: controller.add),
               if (controller.length > 1)

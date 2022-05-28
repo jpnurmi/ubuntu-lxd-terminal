@@ -37,10 +37,10 @@ class MovableTabButton extends StatelessWidget {
         child: DecoratedBox(
           decoration: UnderlineTabIndicator(
             borderSide: BorderSide(
-              width: selected == true ? 3 : 1,
+              width: 3,
               color: selected == true
                   ? Theme.of(context).indicatorColor
-                  : Theme.of(context).dividerColor,
+                  : Colors.transparent,
             ),
           ),
           child: DefaultTextStyle(
