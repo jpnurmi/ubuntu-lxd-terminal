@@ -10,11 +10,13 @@ class LxdTerminalBackend implements TerminalBackend {
   LxdTerminalBackend({
     required this.client,
     required this.instance,
+    this.command,
     this.onExit,
   });
 
   final LxdClient client;
   final String instance;
+  final String? command;
   final VoidCallback? onExit;
 
   final _exitCode = Completer<int>();
@@ -54,7 +56,7 @@ class LxdTerminalBackend implements TerminalBackend {
   Future<void> execute(String name) async {
     final op = await client.execInstance(
       name,
-      command: ['/bin/bash'],
+      command: [command ?? Platform.environment['SHELL'] ?? '/bin/bash'],
       environment: {
         'TERM': 'xterm-256color',
       },

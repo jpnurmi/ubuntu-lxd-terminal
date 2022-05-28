@@ -21,7 +21,7 @@ mixin _$TerminalState {
     required TResult Function() none,
     required TResult Function(String? message) error,
     required TResult Function(LxdOperation operation) loading,
-    required TResult Function(LxdInstance instance, Terminal terminal) running,
+    required TResult Function(Terminal terminal) running,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -29,7 +29,7 @@ mixin _$TerminalState {
     TResult Function()? none,
     TResult Function(String? message)? error,
     TResult Function(LxdOperation operation)? loading,
-    TResult Function(LxdInstance instance, Terminal terminal)? running,
+    TResult Function(Terminal terminal)? running,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -37,7 +37,7 @@ mixin _$TerminalState {
     TResult Function()? none,
     TResult Function(String? message)? error,
     TResult Function(LxdOperation operation)? loading,
-    TResult Function(LxdInstance instance, Terminal terminal)? running,
+    TResult Function(Terminal terminal)? running,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -129,7 +129,7 @@ class _$TerminalNone implements TerminalNone {
     required TResult Function() none,
     required TResult Function(String? message) error,
     required TResult Function(LxdOperation operation) loading,
-    required TResult Function(LxdInstance instance, Terminal terminal) running,
+    required TResult Function(Terminal terminal) running,
   }) {
     return none();
   }
@@ -140,7 +140,7 @@ class _$TerminalNone implements TerminalNone {
     TResult Function()? none,
     TResult Function(String? message)? error,
     TResult Function(LxdOperation operation)? loading,
-    TResult Function(LxdInstance instance, Terminal terminal)? running,
+    TResult Function(Terminal terminal)? running,
   }) {
     return none?.call();
   }
@@ -151,7 +151,7 @@ class _$TerminalNone implements TerminalNone {
     TResult Function()? none,
     TResult Function(String? message)? error,
     TResult Function(LxdOperation operation)? loading,
-    TResult Function(LxdInstance instance, Terminal terminal)? running,
+    TResult Function(Terminal terminal)? running,
     required TResult orElse(),
   }) {
     if (none != null) {
@@ -270,7 +270,7 @@ class _$TerminalError implements TerminalError {
     required TResult Function() none,
     required TResult Function(String? message) error,
     required TResult Function(LxdOperation operation) loading,
-    required TResult Function(LxdInstance instance, Terminal terminal) running,
+    required TResult Function(Terminal terminal) running,
   }) {
     return error(message);
   }
@@ -281,7 +281,7 @@ class _$TerminalError implements TerminalError {
     TResult Function()? none,
     TResult Function(String? message)? error,
     TResult Function(LxdOperation operation)? loading,
-    TResult Function(LxdInstance instance, Terminal terminal)? running,
+    TResult Function(Terminal terminal)? running,
   }) {
     return error?.call(message);
   }
@@ -292,7 +292,7 @@ class _$TerminalError implements TerminalError {
     TResult Function()? none,
     TResult Function(String? message)? error,
     TResult Function(LxdOperation operation)? loading,
-    TResult Function(LxdInstance instance, Terminal terminal)? running,
+    TResult Function(Terminal terminal)? running,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -425,7 +425,7 @@ class _$TerminalLoading implements TerminalLoading {
     required TResult Function() none,
     required TResult Function(String? message) error,
     required TResult Function(LxdOperation operation) loading,
-    required TResult Function(LxdInstance instance, Terminal terminal) running,
+    required TResult Function(Terminal terminal) running,
   }) {
     return loading(operation);
   }
@@ -436,7 +436,7 @@ class _$TerminalLoading implements TerminalLoading {
     TResult Function()? none,
     TResult Function(String? message)? error,
     TResult Function(LxdOperation operation)? loading,
-    TResult Function(LxdInstance instance, Terminal terminal)? running,
+    TResult Function(Terminal terminal)? running,
   }) {
     return loading?.call(operation);
   }
@@ -447,7 +447,7 @@ class _$TerminalLoading implements TerminalLoading {
     TResult Function()? none,
     TResult Function(String? message)? error,
     TResult Function(LxdOperation operation)? loading,
-    TResult Function(LxdInstance instance, Terminal terminal)? running,
+    TResult Function(Terminal terminal)? running,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -509,9 +509,7 @@ abstract class _$$TerminalRunningCopyWith<$Res> {
   factory _$$TerminalRunningCopyWith(
           _$TerminalRunning value, $Res Function(_$TerminalRunning) then) =
       __$$TerminalRunningCopyWithImpl<$Res>;
-  $Res call({LxdInstance instance, Terminal terminal});
-
-  $LxdInstanceCopyWith<$Res> get instance;
+  $Res call({Terminal terminal});
 }
 
 /// @nodoc
@@ -527,42 +525,28 @@ class __$$TerminalRunningCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? instance = freezed,
     Object? terminal = freezed,
   }) {
     return _then(_$TerminalRunning(
-      instance: instance == freezed
-          ? _value.instance
-          : instance // ignore: cast_nullable_to_non_nullable
-              as LxdInstance,
-      terminal: terminal == freezed
+      terminal == freezed
           ? _value.terminal
           : terminal // ignore: cast_nullable_to_non_nullable
               as Terminal,
     ));
-  }
-
-  @override
-  $LxdInstanceCopyWith<$Res> get instance {
-    return $LxdInstanceCopyWith<$Res>(_value.instance, (value) {
-      return _then(_value.copyWith(instance: value));
-    });
   }
 }
 
 /// @nodoc
 
 class _$TerminalRunning implements TerminalRunning {
-  const _$TerminalRunning({required this.instance, required this.terminal});
+  const _$TerminalRunning(this.terminal);
 
-  @override
-  final LxdInstance instance;
   @override
   final Terminal terminal;
 
   @override
   String toString() {
-    return 'TerminalState.running(instance: $instance, terminal: $terminal)';
+    return 'TerminalState.running(terminal: $terminal)';
   }
 
   @override
@@ -570,15 +554,12 @@ class _$TerminalRunning implements TerminalRunning {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TerminalRunning &&
-            const DeepCollectionEquality().equals(other.instance, instance) &&
             const DeepCollectionEquality().equals(other.terminal, terminal));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(instance),
-      const DeepCollectionEquality().hash(terminal));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(terminal));
 
   @JsonKey(ignore: true)
   @override
@@ -591,9 +572,9 @@ class _$TerminalRunning implements TerminalRunning {
     required TResult Function() none,
     required TResult Function(String? message) error,
     required TResult Function(LxdOperation operation) loading,
-    required TResult Function(LxdInstance instance, Terminal terminal) running,
+    required TResult Function(Terminal terminal) running,
   }) {
-    return running(instance, terminal);
+    return running(terminal);
   }
 
   @override
@@ -602,9 +583,9 @@ class _$TerminalRunning implements TerminalRunning {
     TResult Function()? none,
     TResult Function(String? message)? error,
     TResult Function(LxdOperation operation)? loading,
-    TResult Function(LxdInstance instance, Terminal terminal)? running,
+    TResult Function(Terminal terminal)? running,
   }) {
-    return running?.call(instance, terminal);
+    return running?.call(terminal);
   }
 
   @override
@@ -613,11 +594,11 @@ class _$TerminalRunning implements TerminalRunning {
     TResult Function()? none,
     TResult Function(String? message)? error,
     TResult Function(LxdOperation operation)? loading,
-    TResult Function(LxdInstance instance, Terminal terminal)? running,
+    TResult Function(Terminal terminal)? running,
     required TResult orElse(),
   }) {
     if (running != null) {
-      return running(instance, terminal);
+      return running(terminal);
     }
     return orElse();
   }
@@ -661,11 +642,8 @@ class _$TerminalRunning implements TerminalRunning {
 }
 
 abstract class TerminalRunning implements TerminalState {
-  const factory TerminalRunning(
-      {required final LxdInstance instance,
-      required final Terminal terminal}) = _$TerminalRunning;
+  const factory TerminalRunning(final Terminal terminal) = _$TerminalRunning;
 
-  LxdInstance get instance => throw _privateConstructorUsedError;
   Terminal get terminal => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   _$$TerminalRunningCopyWith<_$TerminalRunning> get copyWith =>

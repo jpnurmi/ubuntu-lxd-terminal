@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lxd_x/lxd_x.dart';
-import 'package:xterm/xterm.dart';
+import 'package:terminal_view/terminal_view.dart';
 
 part 'terminal_state.freezed.dart';
 
@@ -9,8 +9,5 @@ class TerminalState with _$TerminalState {
   const factory TerminalState.none() = TerminalNone;
   const factory TerminalState.error([String? message]) = TerminalError;
   const factory TerminalState.loading(LxdOperation operation) = TerminalLoading;
-  const factory TerminalState.running({
-    required LxdInstance instance,
-    required Terminal terminal,
-  }) = TerminalRunning;
+  const factory TerminalState.running(Terminal terminal) = TerminalRunning;
 }

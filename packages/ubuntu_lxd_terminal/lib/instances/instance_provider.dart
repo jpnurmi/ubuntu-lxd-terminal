@@ -6,13 +6,13 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 final instanceStore = Provider.autoDispose<InstanceStore>((ref) {
   final service = getService<LxdService>();
-  ref.onDispose(service.close);
-  return InstanceStore(service);
+  final store = InstanceStore(service);
+  ref.onDispose(store.dispose);
+  return store;
 });
 
 final instanceStream = StreamProvider.autoDispose<List<String>>((ref) async* {
   final store = ref.watch(instanceStore);
-  ref.onDispose(store.dispose);
   await store.init();
   yield* store.stream;
 });

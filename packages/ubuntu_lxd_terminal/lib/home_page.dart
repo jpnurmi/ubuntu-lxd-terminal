@@ -4,13 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lxd_service/lxd_service.dart';
 import 'package:movable_tabs/movable_tabs.dart';
 import 'package:native_context_menu/native_context_menu.dart' as n;
+import 'package:terminal_view/terminal_view.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'home_controller.dart';
 import 'launch_view.dart';
 import 'operations/operation_view.dart';
+import 'terminal/terminal_settings.dart';
 import 'terminal/terminal_state.dart';
-import 'terminal/terminal_view.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -18,7 +19,7 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(homeController);
-    final current = controller.currentTerminal ?? const TerminalState.none();
+    final current = controller.currentTerminal;
 
     return CallbackShortcuts(
       bindings: {
@@ -52,11 +53,20 @@ class HomePage extends ConsumerWidget {
               : MovableTabBar(
                   count: controller.length,
                   builder: (context, index) {
+                    final terminal = controller.terminal(index)!;
                     return MovableTabButton(
                       selected: index == controller.currentIndex,
                       onPressed: () => controller.currentIndex = index,
                       onClosed: () => controller.closeAt(index),
-                      label: const Text('Terminal'), // TODO: title
+                      label: terminal.maybeWhen(
+                        running: (running) => AnimatedBuilder(
+                          animation: running,
+                          builder: (context, child) {
+                            return Text(running.title ?? 'Terminal');
+                          },
+                        ),
+                        orElse: () => const Text('Terminal'),
+                      ),
                     );
                   },
                   onMoved: controller.move,
@@ -86,9 +96,9 @@ class HomePage extends ConsumerWidget {
                 id: op.id,
                 onCancel: () => getService<LxdService>().cancelOperation(op.id),
               ),
-              running: (instance, terminal) => TerminalView(
-                instance: instance,
-                terminal: terminal,
+              running: (terminal) => TerminalTheme(
+                data: ref.watch(terminalTheme),
+                child: TerminalView(terminal: terminal),
               ),
               error: (error) => Text('TODO: $error'),
             ),

@@ -1,0 +1,21 @@
+name: terminal_view
+publish_to: 'none'
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  lxd_x:
+    path: ../lxd_x
+  xterm: ^2.6.0
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true

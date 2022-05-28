@@ -3,11 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lxd_service/lxd_service.dart';
 import 'package:lxd_x/lxd_x.dart';
+import 'package:terminal_view/terminal_view.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
-import 'package:xterm/xterm.dart';
 
-import 'terminal/terminal_backend.dart';
-import 'terminal/terminal_settings.dart';
 import 'terminal/terminal_state.dart';
 
 final homeController = ChangeNotifierProvider<HomeController>((ref) {
@@ -20,15 +18,16 @@ class HomeController extends ChangeNotifier {
 
   final LxdService _service;
 
-  var _currentIndex = -1;
-  final _terminals = <TerminalState>[];
+  var _currentIndex = 0;
+  final _terminals = <TerminalState>[const TerminalState.none()];
 
   int get length => _terminals.length;
   TerminalState? terminal(int index) => _terminals.elementAtOrNull(index);
-  TerminalState? get currentTerminal => terminal(_currentIndex);
-  Terminal? get currentRunning {
-    return currentTerminal?.whenOrNull(running: (_, terminal) => terminal);
-  }
+  TerminalState get currentTerminal => terminal(_currentIndex)!;
+
+  Terminal? running(int index) =>
+      terminal(index)?.whenOrNull(running: (terminal) => terminal);
+  Terminal? get currentRunning => running(_currentIndex);
 
   int get currentIndex => _currentIndex;
   set currentIndex(int index) {
@@ -97,18 +96,10 @@ class HomeController extends ChangeNotifier {
     _setState(
       _currentIndex,
       TerminalState.running(
-        instance: instance,
-        terminal: Terminal(
-          backend: LxdTerminalBackend(
-            client: _service,
-            instance: instance.name,
-            onExit: reset,
-          ),
-          maxLines: 10000, // TODO: configurable
-          theme: terminalTheme,
-          onTitleChange: (t) {
-            // TODO: update terminal title?
-          },
+        Terminal(
+          client: _service,
+          instance: instance.name,
+          onExit: reset,
         ),
       ),
     );
