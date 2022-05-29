@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lxd_service/lxd_service.dart';
 import 'package:movable_tabs/movable_tabs.dart';
+import 'package:provider/provider.dart';
 import 'package:terminal_view/terminal_view.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-import 'home_controller.dart';
+import 'home_model.dart';
 import 'launch_view.dart';
 import 'operations/operation_view.dart';
 import 'terminal/terminal_settings.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  static Widget create(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => HomeModel(getService<LxdService>()),
+      child: const HomePage(),
+    );
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.watch(homeController);
-    final current = controller.currentTerminal;
+  Widget build(BuildContext context) {
+    final model = context.watch<HomeModel>();
+    final current = model.currentTerminal;
 
     return CallbackShortcuts(
       bindings: {
@@ -26,36 +33,36 @@ class HomePage extends ConsumerWidget {
           control: true,
           shift: true,
           includeRepeats: false,
-        ): controller.add,
-        if (controller.length > 1)
+        ): model.add,
+        if (model.length > 1)
           const SingleActivator(
             LogicalKeyboardKey.keyW,
             control: true,
             shift: true,
             includeRepeats: false,
-          ): controller.close,
+          ): model.close,
         const SingleActivator(
           LogicalKeyboardKey.pageUp,
           control: true,
-        ): controller.prev,
+        ): model.prev,
         const SingleActivator(
           LogicalKeyboardKey.pageDown,
           control: true,
-        ): controller.next,
+        ): model.next,
       },
       child: Focus(
         autofocus: true,
         child: Scaffold(
-          appBar: controller.length <= 1
+          appBar: model.length <= 1
               ? null
               : MovableTabBar(
-                  count: controller.length,
+                  count: model.length,
                   builder: (context, index) {
-                    final terminal = controller.terminal(index)!;
+                    final terminal = model.terminal(index)!;
                     return MovableTabButton(
-                      selected: index == controller.currentIndex,
-                      onPressed: () => controller.currentIndex = index,
-                      onClosed: () => controller.closeAt(index),
+                      selected: index == model.currentIndex,
+                      onPressed: () => model.currentIndex = index,
+                      onClosed: () => model.closeAt(index),
                       label: terminal.maybeWhen(
                         running: (running) => AnimatedBuilder(
                           animation: running,
@@ -67,13 +74,13 @@ class HomePage extends ConsumerWidget {
                       ),
                     );
                   },
-                  trailing: PopupMenuButton(
-                    icon: const Icon(Icons.more_vert),
+                  trailing: const PopupMenuButton(
+                    icon: Icon(Icons.more_vert),
                     splashRadius: 16,
                     iconSize: 16,
-                    itemBuilder: (context) => buildMenuItems(context, ref),
+                    itemBuilder: buildMenuItems,
                   ),
-                  onMoved: controller.move,
+                  onMoved: model.move,
                   preferredHeight: Theme.of(context).appBarTheme.toolbarHeight,
                 ),
           body: GestureDetector(
@@ -84,22 +91,22 @@ class HomePage extends ConsumerWidget {
                   details.globalPosition & Size.zero,
                   MediaQuery.of(context).size,
                 ),
-                items: buildMenuItems(context, ref),
+                items: buildMenuItems(context),
               );
             },
             child: current.when(
               none: () => LaunchView(
-                onStart: controller.start,
-                onCreate: controller.create,
-                onDelete: getService<LxdService>().deleteInstance,
-                onStop: getService<LxdService>().stopInstance,
+                onStart: model.start,
+                onCreate: model.create,
+                onDelete: model.delete,
+                onStop: model.stop,
               ),
               loading: (op) => OperationView(
                 id: op.id,
-                onCancel: () => getService<LxdService>().cancelOperation(op.id),
+                onCancel: () => model.cancel(op.id),
               ),
               running: (terminal) => TerminalTheme(
-                data: ref.watch(terminalTheme),
+                data: terminalTheme,
                 child: TerminalView(terminal: terminal),
               ),
               error: (error) => Text('TODO: $error'),
@@ -111,32 +118,32 @@ class HomePage extends ConsumerWidget {
   }
 }
 
-List<PopupMenuEntry> buildMenuItems(BuildContext context, WidgetRef ref) {
-  final controller = ref.watch(homeController);
-  final running = controller.currentRunning;
+List<PopupMenuEntry> buildMenuItems(BuildContext context) {
+  final model = context.read<HomeModel>();
+  final running = model.currentRunning;
   return <PopupMenuEntry>[
     PopupMenuItem(
-      onTap: controller.add,
+      onTap: model.add,
       child: const Text('New Tab'),
     ),
     PopupMenuItem(
-      onTap: controller.close,
-      enabled: controller.length > 1,
+      onTap: model.close,
+      enabled: model.length > 1,
       child: const Text('Close Tab'),
     ),
     const PopupMenuDivider(),
     PopupMenuItem(
-      onTap: controller.copy,
+      onTap: model.copy,
       enabled: running?.selectedText?.isNotEmpty == true,
       child: const Text('Copy'),
     ),
     PopupMenuItem(
-      onTap: controller.paste,
+      onTap: model.paste,
       enabled: running != null,
       child: const Text('Paste'),
     ),
     PopupMenuItem(
-      onTap: controller.selectAll,
+      onTap: model.selectAll,
       enabled: running != null,
       child: const Text('Select All'),
     ),

@@ -22,6 +22,7 @@ dependencies:
   meta: ^1.7.0
   movable_tabs:
     path: ../movable_tabs
+  provider: ^6.0.3
   shared_preferences: ^2.0.15
   terminal_view:
     path: ../terminal_view

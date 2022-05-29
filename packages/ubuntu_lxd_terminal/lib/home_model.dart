@@ -1,20 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lxd_service/lxd_service.dart';
 import 'package:lxd_x/lxd_x.dart';
 import 'package:terminal_view/terminal_view.dart';
-import 'package:ubuntu_service/ubuntu_service.dart';
 
 import 'terminal/terminal_state.dart';
 
-final homeController = ChangeNotifierProvider<HomeController>((ref) {
-  final service = getService<LxdService>();
-  return HomeController(service);
-});
-
-class HomeController extends ChangeNotifier {
-  HomeController(this._service);
+class HomeModel extends ChangeNotifier {
+  HomeModel(this._service);
 
   final LxdService _service;
 
@@ -104,6 +97,12 @@ class HomeController extends ChangeNotifier {
       ),
     );
   }
+
+  Future<void> cancel(String id) => _service.cancelOperation(id);
+
+  Future<void> stop(String name) => _service.stopInstance(name);
+
+  Future<void> delete(String name) => _service.deleteInstance(name);
 
   void reset() => _setState(_currentIndex, const TerminalState.none());
 
