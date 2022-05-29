@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:lxd_service/lxd_service.dart';
 import 'package:lxd_x/lxd_x.dart';
 import 'package:terminal_view/terminal_view.dart';
@@ -15,6 +14,8 @@ class HomeModel extends ChangeNotifier {
   final _terminals = <TerminalState>[const TerminalState.none()];
 
   int get length => _terminals.length;
+  List<TerminalState> get terminals => _terminals;
+
   TerminalState? terminal(int index) => _terminals.elementAtOrNull(index);
   TerminalState get currentTerminal => terminal(_currentIndex)!;
 
@@ -111,18 +112,6 @@ class HomeModel extends ChangeNotifier {
     _terminals[index] = terminal;
     notifyListeners();
   }
-
-  Future<void> copy() async {
-    final data = ClipboardData(text: currentRunning?.selectedText);
-    return Clipboard.setData(data);
-  }
-
-  Future<void> paste() async {
-    final data = await Clipboard.getData('text/plain');
-    currentRunning?.paste(data?.text ?? '');
-  }
-
-  void selectAll() => currentRunning?.selectAll();
 }
 
 extension ListX<T> on List<T> {

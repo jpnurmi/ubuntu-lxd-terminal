@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:terminal_view/terminal_view.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
+import 'context_menu.dart';
 import 'home_model.dart';
 import 'launch_view.dart';
 import 'operations/operation_view.dart';
@@ -74,26 +75,20 @@ class HomePage extends StatelessWidget {
                       ),
                     );
                   },
-                  trailing: const PopupMenuButton(
-                    icon: Icon(Icons.more_vert),
-                    splashRadius: 16,
-                    iconSize: 16,
-                    itemBuilder: buildMenuItems,
+                  trailing: ContextMenuButton(
+                    current: model.currentRunning,
+                    terminals: model.terminals,
+                    onNewTab: model.add,
+                    onCloseTab: model.close,
                   ),
                   onMoved: model.move,
                   preferredHeight: Theme.of(context).appBarTheme.toolbarHeight,
                 ),
-          body: GestureDetector(
-            onSecondaryTapDown: (details) {
-              showMenu(
-                context: context,
-                position: RelativeRect.fromSize(
-                  details.globalPosition & Size.zero,
-                  MediaQuery.of(context).size,
-                ),
-                items: buildMenuItems(context),
-              );
-            },
+          body: ContextMenuArea(
+            current: model.currentRunning,
+            terminals: model.terminals,
+            onNewTab: model.add,
+            onCloseTab: model.close,
             child: current.when(
               none: () => LaunchView(
                 onStart: model.start,
@@ -116,36 +111,4 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-}
-
-List<PopupMenuEntry> buildMenuItems(BuildContext context) {
-  final model = context.read<HomeModel>();
-  final running = model.currentRunning;
-  return <PopupMenuEntry>[
-    PopupMenuItem(
-      onTap: model.add,
-      child: const Text('New Tab'),
-    ),
-    PopupMenuItem(
-      onTap: model.close,
-      enabled: model.length > 1,
-      child: const Text('Close Tab'),
-    ),
-    const PopupMenuDivider(),
-    PopupMenuItem(
-      onTap: model.copy,
-      enabled: running?.selectedText?.isNotEmpty == true,
-      child: const Text('Copy'),
-    ),
-    PopupMenuItem(
-      onTap: model.paste,
-      enabled: running != null,
-      child: const Text('Paste'),
-    ),
-    PopupMenuItem(
-      onTap: model.selectAll,
-      enabled: running != null,
-      child: const Text('Select All'),
-    ),
-  ];
 }
