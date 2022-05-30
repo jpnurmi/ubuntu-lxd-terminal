@@ -27,6 +27,10 @@ dependencies:
   terminal_view:
     path: ../terminal_view
   ubuntu_service: ^0.1.0
+  ubuntu_widgets:
+    git:
+      url: https://github.com/canonical/ubuntu-flutter-plugins.git
+      path: packages/ubuntu_widgets
   yaru: ^0.3.0
   yaru_icons: ^0.2.1
 

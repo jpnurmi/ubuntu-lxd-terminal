@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lxd_x/lxd_x.dart';
+import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 
 import '../remote_images/remote_image_store.dart';
 import '../remote_images/remote_image_view.dart';
@@ -67,25 +68,9 @@ class LaunchDialog extends ConsumerWidget {
               ),
               const SizedBox(height: 24),
               Expanded(
-                // TODO: RoundedContainer/ListView
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Theme.of(context).dividerColor,
-                    ),
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(3.5),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: RemoteImageView(
-                        selected: selected,
-                        onSelected: onSelected,
-                      ),
-                    ),
-                  ),
+                child: RemoteImageView(
+                  selected: selected,
+                  onSelected: onSelected,
                 ),
               ),
             ],

@@ -2,6 +2,7 @@ import 'package:data_size/data_size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lxd_x/lxd_x.dart';
+import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 
 import '../widgets/loading_indicator.dart';
 import 'remote_image_store.dart';
@@ -40,7 +41,7 @@ class _RemoteImageListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return RoundedListView.builder(
       itemCount: images?.length ?? 0,
       itemBuilder: (context, index) {
         final image = images![index];
