@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lxd_x/lxd_x.dart';
-import 'package:ubuntu_widgets/ubuntu_widgets.dart';
+import 'dart:async';
 
-import '../remote_images/remote_image_store.dart';
+import 'package:flutter/material.dart';
+import 'package:lxd/lxd.dart';
+import 'package:provider/provider.dart';
+
+import '../remote_images/remote_image_model.dart';
 import '../remote_images/remote_image_view.dart';
 import '../widgets/loading_indicator.dart';
 
@@ -13,7 +14,7 @@ class LaunchOptions {
   final LxdRemoteImage image;
 }
 
-Future<LaunchOptions?> showLaunchDialog(BuildContext context) async {
+Future<LaunchOptions?> showLauncherDialog(BuildContext context) async {
   final controller = TextEditingController();
   final selected = ValueNotifier<LxdRemoteImage?>(null);
 
@@ -22,7 +23,7 @@ Future<LaunchOptions?> showLaunchDialog(BuildContext context) async {
     builder: (context) => AnimatedBuilder(
       animation: selected,
       builder: (context, child) {
-        return LaunchDialog(
+        return LauncherDialog(
           controller: controller,
           selected: selected.value,
           onSelected: (value) => selected.value = value,
@@ -38,8 +39,8 @@ Future<LaunchOptions?> showLaunchDialog(BuildContext context) async {
   return LaunchOptions(name: controller.text, image: selected.value!);
 }
 
-class LaunchDialog extends ConsumerWidget {
-  const LaunchDialog({
+class LauncherDialog extends StatelessWidget {
+  const LauncherDialog({
     super.key,
     required this.controller,
     required this.selected,
@@ -51,15 +52,14 @@ class LaunchDialog extends ConsumerWidget {
   final ValueChanged<LxdRemoteImage?> onSelected;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final images = ref.watch(remoteImageStore);
-
+  Widget build(BuildContext context) {
+    final model = context.watch<RemoteImageModel>();
     return AlertDialog(
       title: const Text('Create Instance'),
       content: SizedBox(
         width: 900,
         height: 600,
-        child: images.map(
+        child: model.images.map(
           data: (data) => Column(
             children: [
               TextFormField(

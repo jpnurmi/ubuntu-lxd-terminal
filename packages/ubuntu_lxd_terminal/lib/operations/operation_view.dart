@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lxd_x/lxd_x.dart';
+import 'package:lxd/lxd.dart';
+import 'package:lxd_service/lxd_service.dart';
+import 'package:provider/provider.dart';
+import 'package:ubuntu_service/ubuntu_service.dart';
 
-import 'operation_events.dart';
+import 'operation_model.dart';
 import 'operation_x.dart';
 
-class OperationView extends ConsumerWidget {
-  const OperationView({super.key, required this.id, this.onCancel});
+class OperationView extends StatelessWidget {
+  const OperationView({super.key});
 
-  final String id;
-  final VoidCallback? onCancel;
+  static Widget create(BuildContext context, String id) {
+    return ChangeNotifierProvider(
+      create: (_) => OperationModel(id, getService<LxdService>()),
+      child: const OperationView(),
+    );
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final op = ref.watch(instanceOperations(id));
+  Widget build(BuildContext context) {
+    final model = context.watch<OperationModel>();
     return Scaffold(
       body: Center(
-        child: op.map(
-          data: (data) => _OperationView(op: data.value, onCancel: onCancel),
+        child: model.operation.map(
+          data: (data) =>
+              _OperationView(op: data.value, onCancel: model.cancel),
           error: (error) => Text('TODO: ${error.error}'),
           loading: (loading) => _OperationView(op: loading.value),
         ),

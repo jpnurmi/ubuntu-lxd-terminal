@@ -6,11 +6,11 @@ import 'package:provider/provider.dart';
 import 'package:terminal_view/terminal_view.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
+import '../launcher/launcher_view.dart';
+import '../operations/operation_view.dart';
+import '../terminal/terminal_settings.dart';
 import 'context_menu.dart';
 import 'home_model.dart';
-import 'launch_view.dart';
-import 'operations/operation_view.dart';
-import 'terminal/terminal_settings.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -90,16 +90,13 @@ class HomePage extends StatelessWidget {
             onNewTab: model.add,
             onCloseTab: model.close,
             child: current.when(
-              none: () => LaunchView(
+              none: () => LauncherView(
                 onStart: model.start,
                 onCreate: model.create,
                 onDelete: model.delete,
                 onStop: model.stop,
               ),
-              loading: (op) => OperationView(
-                id: op.id,
-                onCancel: () => model.cancel(op.id),
-              ),
+              loading: (op) => OperationView.create(context, op.id),
               running: (terminal) => TerminalTheme(
                 data: terminalTheme,
                 child: TerminalView(terminal: terminal),

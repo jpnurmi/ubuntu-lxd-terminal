@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:lxd_x/lxd_x.dart';
+import 'package:lxd/lxd.dart';
 import 'package:xterm/theme/terminal_theme.dart' as xterm;
 import 'package:xterm/theme/terminal_themes.dart' as xterm;
 import 'package:xterm/xterm.dart' as xterm;

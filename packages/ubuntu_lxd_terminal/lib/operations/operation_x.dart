@@ -1,4 +1,4 @@
-import 'package:lxd_x/lxd_x.dart';
+import 'package:lxd/lxd.dart';
 
 extension LxdOperationX on LxdOperation {
   double? get progressValue =>

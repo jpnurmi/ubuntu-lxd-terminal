@@ -7,22 +7,26 @@ environment:
   flutter: ">=3.0.0"
 
 dependencies:
+  async_value:
+    path: ../async_value
   collection: ^1.15.0
   data_size: ^0.2.0
   flutter:
     sdk: flutter
-  flutter_riverpod: ^2.0.0-0
   freezed_annotation: ^2.0.3
+  lxd:
+    git:
+      url: https://github.com/jpnurmi/lxd.dart
+      ref: dev
   lxd_service:
     path: ../lxd_service
-  lxd_store:
-    path: ../lxd_store
   lxd_x:
     path: ../lxd_x
   meta: ^1.7.0
   movable_tabs:
     path: ../movable_tabs
   provider: ^6.0.3
+  safe_change_notifier: ^0.1.0+1
   shared_preferences: ^2.0.15
   terminal_view:
     path: ../terminal_view

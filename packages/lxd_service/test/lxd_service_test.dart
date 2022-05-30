@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:lxd_store/lxd_store.dart';
-import 'package:lxd_x/lxd_x.dart';
+import 'package:lxd/lxd.dart';
+import 'package:lxd_service/lxd_service.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import 'instance_store_test.mocks.dart';
+import 'lxd_service_test.mocks.dart';
 
 @GenerateMocks([LxdClient])
 void main() {
@@ -17,21 +17,21 @@ void main() {
         .thenAnswer((_) => events.stream);
     when(client.getInstances()).thenAnswer((_) async => ['foo']);
 
-    final store = InstanceStore(client);
-    expect(store.instances, isNull);
+    final service = LxdService(client);
+    expect(service.instances, isNull);
 
-    await store.init();
+    await service.init();
     verify(client.getEvents(types: {LxdEventType.operation})).called(1);
     verify(client.getInstances()).called(1);
 
-    expect(store.instances, ['foo']);
-    expect(store.stream, emits(['foo']));
+    expect(service.instances, ['foo']);
+    expect(service.instanceStream, emits(['foo']));
 
-    expect(store.onAdded, neverEmits(anything));
-    expect(store.onRemoved, neverEmits(anything));
-    expect(store.onUpdated, neverEmits(anything));
+    expect(service.instanceAdded, neverEmits(anything));
+    expect(service.instanceRemoved, neverEmits(anything));
+    expect(service.instanceUpdated, neverEmits(anything));
 
-    await store.dispose();
+    await service.dispose();
   });
 
   test('add', () async {
@@ -41,8 +41,8 @@ void main() {
         .thenAnswer((_) => events.stream);
     when(client.getInstances()).thenAnswer((_) async => ['foo']);
 
-    final store = InstanceStore(client);
-    await store.init();
+    final service = LxdService(client);
+    await service.init();
 
     when(client.getInstances()).thenAnswer((_) async => ['foo', 'bar']);
 
@@ -52,14 +52,14 @@ void main() {
       timestamp: DateTime.now(),
     ));
 
-    await expectLater(store.onAdded, emits('bar'));
-    expect(store.onRemoved, neverEmits(anything));
-    expect(store.onUpdated, neverEmits(anything));
+    await expectLater(service.instanceAdded, emits('bar'));
+    expect(service.instanceRemoved, neverEmits(anything));
+    expect(service.instanceUpdated, neverEmits(anything));
 
-    expect(store.instances, ['foo', 'bar']);
-    expect(store.stream, emits(['foo', 'bar']));
+    expect(service.instances, ['foo', 'bar']);
+    expect(service.instanceStream, emits(['foo', 'bar']));
 
-    await store.dispose();
+    await service.dispose();
   });
 
   test('remove', () async {
@@ -69,8 +69,8 @@ void main() {
         .thenAnswer((_) => events.stream);
     when(client.getInstances()).thenAnswer((_) async => ['foo', 'bar']);
 
-    final store = InstanceStore(client);
-    await store.init();
+    final service = LxdService(client);
+    await service.init();
 
     when(client.getInstances()).thenAnswer((_) async => ['bar']);
 
@@ -80,14 +80,14 @@ void main() {
       timestamp: DateTime.now(),
     ));
 
-    expect(store.onAdded, neverEmits(anything));
-    await expectLater(store.onRemoved, emits('foo'));
-    expect(store.onUpdated, neverEmits(anything));
+    expect(service.instanceAdded, neverEmits(anything));
+    await expectLater(service.instanceRemoved, emits('foo'));
+    expect(service.instanceUpdated, neverEmits(anything));
 
-    expect(store.instances, ['bar']);
-    expect(store.stream, emits(['bar']));
+    expect(service.instances, ['bar']);
+    expect(service.instanceStream, emits(['bar']));
 
-    await store.dispose();
+    await service.dispose();
   });
 
   test('update', () async {
@@ -97,8 +97,8 @@ void main() {
         .thenAnswer((_) => events.stream);
     when(client.getInstances()).thenAnswer((_) async => ['foo', 'bar', 'baz']);
 
-    final store = InstanceStore(client);
-    await store.init();
+    final service = LxdService(client);
+    await service.init();
 
     when(client.getInstances()).thenAnswer((_) async => ['foo', 'bar', 'baz']);
 
@@ -108,14 +108,14 @@ void main() {
       timestamp: DateTime.now(),
     ));
 
-    expect(store.onAdded, neverEmits(anything));
-    expect(store.onRemoved, neverEmits(anything));
-    await expectLater(store.onUpdated, emits('bar'));
+    expect(service.instanceAdded, neverEmits(anything));
+    expect(service.instanceRemoved, neverEmits(anything));
+    await expectLater(service.instanceUpdated, emits('bar'));
 
-    expect(store.instances, ['foo', 'bar', 'baz']);
-    expect(store.stream, emits(['foo', 'bar', 'baz']));
+    expect(service.instances, ['foo', 'bar', 'baz']);
+    expect(service.instanceStream, emits(['foo', 'bar', 'baz']));
 
-    await store.dispose();
+    await service.dispose();
   });
 }
 

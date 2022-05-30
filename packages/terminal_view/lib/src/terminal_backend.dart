@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:lxd_x/lxd_x.dart';
+import 'package:lxd/lxd.dart';
 import 'package:xterm/xterm.dart';
 
 class LxdTerminalBackend implements TerminalBackend {

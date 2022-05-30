@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yaru/yaru.dart';
 
-import 'home_page.dart';
+import 'home/home_page.dart';
 
 class LxdApp extends StatelessWidget {
   const LxdApp({super.key});

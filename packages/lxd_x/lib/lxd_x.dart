@@ -1,7 +1,6 @@
 library lxd_x;
 
 import 'package:lxd/lxd.dart';
-export 'package:lxd/lxd.dart';
 
 extension LxdEventX on LxdEvent {
   bool get isOperation => type == LxdEventType.operation;

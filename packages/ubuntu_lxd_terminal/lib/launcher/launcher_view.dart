@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:lxd_x/lxd_x.dart';
+import 'package:lxd/lxd.dart';
 
-import 'instances/instance_view.dart';
-import 'launch_dialog.dart';
+import '../instances/instance_view.dart';
+import 'launcher_dialog.dart';
 
 typedef OnCreateCallback = void Function(LxdRemoteImage image, String? name);
 
-class LaunchView extends StatelessWidget {
-  const LaunchView({
+class LauncherView extends StatelessWidget {
+  const LauncherView({
     super.key,
     this.onCreate,
     this.onStart,
@@ -30,7 +30,7 @@ class LaunchView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final options = await showLaunchDialog(context);
+          final options = await showLauncherDialog(context);
           if (options != null) {
             onCreate?.call(options.image, options.name);
           }

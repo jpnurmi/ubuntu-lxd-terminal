@@ -1,13 +1,14 @@
+import 'package:async_value/async_value.dart';
 import 'package:data_size/data_size.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lxd_x/lxd_x.dart';
+import 'package:lxd/lxd.dart';
+import 'package:provider/provider.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 
 import '../widgets/loading_indicator.dart';
-import 'remote_image_store.dart';
+import 'remote_image_model.dart';
 
-class RemoteImageView extends ConsumerWidget {
+class RemoteImageView extends StatefulWidget {
   const RemoteImageView({
     super.key,
     this.selected,
@@ -18,16 +19,36 @@ class RemoteImageView extends ConsumerWidget {
   final ValueChanged<LxdRemoteImage>? onSelected;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final remoteImages = ref.watch(remoteImageStore);
-    return remoteImages.when(
-      data: (data) => _RemoteImageListView(
-        images: data,
-        selected: selected,
-        onSelected: onSelected,
-      ),
-      loading: () => const LoadingIndicator(),
-      error: (error, stackTrace) => Text('TODO: $error'),
+  State<RemoteImageView> createState() => _RemoteImageViewState();
+}
+
+class _RemoteImageViewState extends State<RemoteImageView> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<RemoteImageModel>().init();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<RemoteImageModel>();
+    return model.images.map(
+      data: (data) {
+        return Stack(
+          children: [
+            _RemoteImageListView(
+              images: data.value,
+              selected: widget.selected,
+              onSelected: widget.onSelected,
+            ),
+            if (data.isRefreshing) const LoadingIndicator(),
+          ],
+        );
+      },
+      loading: (loading) => const LoadingIndicator(),
+      error: (error) => Text('TODO: ${error.error}'),
     );
   }
 }

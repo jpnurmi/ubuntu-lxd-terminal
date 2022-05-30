@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
+import 'package:lxd/lxd.dart';
 import 'package:lxd_service/lxd_service.dart';
 import 'package:lxd_x/lxd_x.dart';
 import 'package:terminal_view/terminal_view.dart';
 
-import 'terminal/terminal_state.dart';
+import '../terminal/terminal_state.dart';
 
 class HomeModel extends ChangeNotifier {
   HomeModel(this._service);
@@ -61,10 +62,11 @@ class HomeModel extends ChangeNotifier {
   }
 
   Future<void> create(LxdRemoteImage image, [String? name]) async {
-    final create = await _service.createInstance(image: image, name: name);
+    final create =
+        await _service.client.createInstance(image: image, name: name);
     _setState(_currentIndex, TerminalState.loading(create));
 
-    final wait = await _service.waitOperation(create.id);
+    final wait = await _service.client.waitOperation(create.id);
     if (wait.statusCode == LxdStatusCode.cancelled.value) {
       reset();
     } else {
@@ -74,10 +76,10 @@ class HomeModel extends ChangeNotifier {
   }
 
   Future<void> start(String name) async {
-    final start = await _service.startInstance(name);
+    final start = await _service.client.startInstance(name);
     _setState(_currentIndex, TerminalState.loading(start));
 
-    final wait = await _service.waitOperation(start.id);
+    final wait = await _service.client.waitOperation(start.id);
     if (wait.statusCode == LxdStatusCode.cancelled.value) {
       reset();
     } else {
@@ -86,12 +88,12 @@ class HomeModel extends ChangeNotifier {
   }
 
   Future<void> run(String name) async {
-    final instance = await _service.getInstance(name);
+    final instance = await _service.client.getInstance(name);
     _setState(
       _currentIndex,
       TerminalState.running(
         Terminal(
-          client: _service,
+          client: _service.client,
           instance: instance.name,
           onExit: reset,
         ),
@@ -99,11 +101,9 @@ class HomeModel extends ChangeNotifier {
     );
   }
 
-  Future<void> cancel(String id) => _service.cancelOperation(id);
+  Future<void> stop(String name) => _service.client.stopInstance(name);
 
-  Future<void> stop(String name) => _service.stopInstance(name);
-
-  Future<void> delete(String name) => _service.deleteInstance(name);
+  Future<void> delete(String name) => _service.client.deleteInstance(name);
 
   void reset() => _setState(_currentIndex, const TerminalState.none());
 

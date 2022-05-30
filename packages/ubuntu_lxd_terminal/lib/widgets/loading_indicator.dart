@@ -10,8 +10,8 @@ class LoadingIndicator extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: const [
           CircularProgressIndicator(),
-          SizedBox(height: 48),
-          Text('TODO: Please wait...'),
+          SizedBox(height: 24),
+          Text('Please wait...'),
         ],
       ),
     );

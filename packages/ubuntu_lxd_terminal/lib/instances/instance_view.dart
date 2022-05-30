@@ -1,10 +1,11 @@
+import 'package:async_value/async_value.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lxd_x/lxd_x.dart';
+import 'package:provider/provider.dart';
 
-import 'instance_provider.dart';
+import 'instance_model.dart';
 
-class InstanceView extends ConsumerWidget {
+class InstanceView extends StatefulWidget {
   const InstanceView({
     super.key,
     this.selected,
@@ -19,22 +20,35 @@ class InstanceView extends ConsumerWidget {
   final ValueChanged<String>? onDelete;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final instances = ref.watch(instanceStream);
-    return instances.map(
+  State<InstanceView> createState() => _InstanceViewState();
+}
+
+class _InstanceViewState extends State<InstanceView> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<InstanceModel>().init();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<InstanceModel>();
+    return model.instances.map(
       data: (data) => _InstanceListView(
         instances: data.value,
-        selected: selected,
-        onSelect: onSelect,
-        onStop: onStop,
-        onDelete: onDelete,
+        selected: widget.selected,
+        onSelect: widget.onSelect,
+        onStop: widget.onStop,
+        onDelete: widget.onDelete,
       ),
       loading: (loading) => _InstanceListView(
         instances: loading.value,
-        selected: selected,
-        onSelect: onSelect,
-        onStop: onStop,
-        onDelete: onDelete,
+        selected: widget.selected,
+        onSelect: widget.onSelect,
+        onStop: widget.onStop,
+        onDelete: widget.onDelete,
       ),
       error: (error) => Text('TODO: ${error.error}'),
     );
@@ -58,22 +72,26 @@ class _InstanceListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = context.read<InstanceModel>();
     return ListView.builder(
       itemCount: instances?.length ?? 0,
       itemBuilder: (context, index) {
         final name = instances![index];
-        return _InstanceListTile(
-          name: name,
-          onSelect: onSelect != null ? () => onSelect!(name) : null,
-          onStop: onStop != null ? () => onStop!(name) : null,
-          onDelete: onDelete != null ? () => onDelete!(name) : null,
+        return ChangeNotifierProvider(
+          create: (_) => model.createState(name),
+          child: _InstanceListTile(
+            name: name,
+            onSelect: onSelect != null ? () => onSelect!(name) : null,
+            onStop: onStop != null ? () => onStop!(name) : null,
+            onDelete: onDelete != null ? () => onDelete!(name) : null,
+          ),
         );
       },
     );
   }
 }
 
-class _InstanceListTile extends ConsumerWidget {
+class _InstanceListTile extends StatefulWidget {
   const _InstanceListTile({
     required this.name,
     this.onSelect,
@@ -87,20 +105,33 @@ class _InstanceListTile extends ConsumerWidget {
   final VoidCallback? onDelete;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final instance = ref.watch(instanceState(name));
-    final canStop = onStop != null && instance.valueOrNull?.isRunning == true;
-    final canDelete =
-        onDelete != null && instance.valueOrNull?.isStopped == true;
+  State<_InstanceListTile> createState() => _InstanceListTileState();
+}
+
+class _InstanceListTileState extends State<_InstanceListTile> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<InstanceState>().init();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = context.watch<InstanceState>();
+    final instance = state.instance.valueOrNull;
+    final canStop = widget.onStop != null && instance?.isRunning == true;
+    final canDelete = widget.onDelete != null && instance?.isStopped == true;
     return ListTile(
-      title: Text(instance.valueOrNull?.name ?? ''),
-      subtitle: Text(instance.valueOrNull?.status ?? ''),
+      title: Text(instance?.name ?? ''),
+      subtitle: Text(instance?.status ?? ''),
       trailing: canStop
-          ? _StopButton(onStop!)
+          ? _StopButton(widget.onStop!)
           : canDelete
-              ? _DeleteButton(onDelete!)
+              ? _DeleteButton(widget.onDelete!)
               : null,
-      onTap: onSelect,
+      onTap: widget.onSelect,
     );
   }
 }

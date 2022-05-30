@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:terminal_view/terminal_view.dart';
 
-import 'terminal/terminal_state.dart';
+import '../terminal/terminal_state.dart';
 
 class ContextMenuArea extends StatelessWidget {
   const ContextMenuArea({
