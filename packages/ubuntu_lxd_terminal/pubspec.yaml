@@ -37,11 +37,5 @@ dev_dependencies:
     sdk: flutter
   freezed: ^2.0.3+1
 
-dependency_overrides:
-  native_context_menu:
-    git:
-      url: https://github.com/jmatth/native_context_menu.git
-      ref: flutter-3
-
 flutter:
   uses-material-design: true
