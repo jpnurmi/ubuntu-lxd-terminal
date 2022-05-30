@@ -6,14 +6,6 @@ import '../remote_images/remote_image_store.dart';
 import '../remote_images/remote_image_view.dart';
 import '../widgets/loading_indicator.dart';
 
-final selectedImage = StateProvider<LxdRemoteImage?>((ref) => null);
-
-final nameController = Provider.autoDispose<TextEditingController>((ref) {
-  final controller = TextEditingController();
-  ref.onDispose(controller.dispose);
-  return controller;
-});
-
 class LaunchOptions {
   const LaunchOptions({required this.name, required this.image});
   final String? name;
@@ -21,18 +13,44 @@ class LaunchOptions {
 }
 
 Future<LaunchOptions?> showLaunchDialog(BuildContext context) async {
-  return showDialog(
+  final controller = TextEditingController();
+  final selected = ValueNotifier<LxdRemoteImage?>(null);
+
+  final result = await showDialog(
     context: context,
-    builder: (context) => const LaunchDialog(),
+    builder: (context) => AnimatedBuilder(
+      animation: selected,
+      builder: (context, child) {
+        return LaunchDialog(
+          controller: controller,
+          selected: selected.value,
+          onSelected: (value) => selected.value = value,
+        );
+      },
+    ),
   );
+
+  controller.dispose();
+
+  if (result != true) return null;
+
+  return LaunchOptions(name: controller.text, image: selected.value!);
 }
 
 class LaunchDialog extends ConsumerWidget {
-  const LaunchDialog({super.key});
+  const LaunchDialog({
+    super.key,
+    required this.controller,
+    required this.selected,
+    required this.onSelected,
+  });
+
+  final TextEditingController controller;
+  final LxdRemoteImage? selected;
+  final ValueChanged<LxdRemoteImage?> onSelected;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selected = ref.watch(selectedImage);
     final images = ref.watch(remoteImageStore);
 
     return AlertDialog(
@@ -44,7 +62,7 @@ class LaunchDialog extends ConsumerWidget {
           data: (data) => Column(
             children: [
               TextFormField(
-                controller: ref.watch(nameController),
+                controller: controller,
                 decoration: const InputDecoration(labelText: 'Name'),
               ),
               const SizedBox(height: 24),
@@ -64,9 +82,7 @@ class LaunchDialog extends ConsumerWidget {
                       color: Colors.transparent,
                       child: RemoteImageView(
                         selected: selected,
-                        onSelected: (image) {
-                          ref.read(selectedImage.state).update((_) => image);
-                        },
+                        onSelected: onSelected,
                       ),
                     ),
                   ),
@@ -84,14 +100,8 @@ class LaunchDialog extends ConsumerWidget {
           child: const Text('Cancel'),
         ),
         OutlinedButton(
-          onPressed: selected != null
-              ? () => Navigator.of(context).pop(
-                    LaunchOptions(
-                      name: ref.watch(nameController).value.text,
-                      image: selected,
-                    ),
-                  )
-              : null,
+          onPressed:
+              selected != null ? () => Navigator.of(context).pop(true) : null,
           child: const Text('Ok'),
         ),
       ],
