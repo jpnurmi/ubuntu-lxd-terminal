@@ -31,7 +31,6 @@ linter:
     prefer_single_quotes: true
     sized_box_shrink_expand: true
     sized_box_for_whitespace: true
-    sort_constructors_first: true
     sort_unnamed_constructors_first: true
     sort_pub_dependencies: true
     type_annotate_public_apis: true
