@@ -1,9 +1,53 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/widgets.dart';
+
+class OperatingSystemLogo extends StatefulWidget {
+  const OperatingSystemLogo({
+    super.key,
+    required this.name,
+    required this.size,
+  });
+
+  final String name;
+  final int size;
+
+  @override
+  State<OperatingSystemLogo> createState() => _OperatingSystemLogoState();
+}
+
+class _OperatingSystemLogoState extends State<OperatingSystemLogo> {
+  static final _cache = <int, ImageProvider<Object>?>{};
+  ImageProvider<Object>? _logo;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final key = Object.hash(widget.name, widget.size);
+    _logo = _cache[key];
+
+    if (!_cache.containsKey(key)) {
+      findOperatingSystemLogo(widget.name, size: widget.size).then((logo) {
+        _cache[key] = logo;
+        if (mounted) {
+          setState(() => _logo = logo);
+        }
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_logo != null) {
+      return Image(image: _logo!);
+    } else {
+      return SizedBox.square(dimension: widget.size.toDouble());
+    }
+  }
+}
 
 Future<ImageProvider<Object>?> findOperatingSystemLogo(
   String name, {
@@ -34,7 +78,7 @@ Future<OperatingSystem?> findOperatingSystem(String str) async {
 List<OperatingSystem>? _operatingSystems;
 Future<List<OperatingSystem>> getOperatingSystems() async {
   _operatingSystems ??= await rootBundle.loadStructuredData(
-    'assets/src/os-list.json',
+    'packages/operating_system_logos/assets/src/os-list.json',
     (data) async => (jsonDecode(data) as List)
         .map((json) => OperatingSystem.fromJson(json as Map<String, dynamic>))
         .toList(),
