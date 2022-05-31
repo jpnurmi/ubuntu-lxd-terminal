@@ -4,9 +4,9 @@ import 'package:lxd_service/lxd_service.dart';
 import 'package:meta/meta.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 
-// TODO:
+// TODO: https://cloud-images.ubuntu.com/releases
 const _kDefaultArchitecture = 'amd64';
-const _kDefaultUrl = 'https://cloud-images.ubuntu.com/releases';
+const _kDefaultUrl = 'https://images.linuxcontainers.org';
 
 typedef RemoteImageList = AsyncValue<List<LxdRemoteImage>>;
 
