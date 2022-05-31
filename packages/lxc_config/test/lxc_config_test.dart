@@ -19,17 +19,21 @@ aliases: {}
 ''',
     ) as YamlMap;
 
-    expect(yaml.defaultRemote, 'local');
-    expect(yaml.remotes, ['images', 'local']);
+    final config = LxcConfig(yaml);
+    expect(config.defaultRemote, 'local');
+    expect(config.remotes, isNotNull);
+    expect(config.remotes!.keys, ['images', 'local']);
 
-    expect(yaml.address('images'), 'https://images.linuxcontainers.org');
-    expect(yaml.protocol('images'), 'simplestreams');
-    expect(yaml.isPublic('images'), true);
+    final images = config.remotes!['images'];
+    expect(images, isNotNull);
+    expect(images!.address, 'https://images.linuxcontainers.org');
+    expect(images.protocol, 'simplestreams');
+    expect(images.isPublic, true);
 
-    expect(yaml.address('local'), 'unix://');
-    expect(yaml.protocol('local'), null);
-    expect(yaml.isPublic('local'), false);
-
-    expect(yaml.aliases, isEmpty);
+    final local = config.remotes!['local'];
+    expect(local, isNotNull);
+    expect(local!.address, 'unix://');
+    expect(local.protocol, null);
+    expect(local.isPublic, false);
   });
 }
