@@ -8,6 +8,7 @@ import 'package:ubuntu_service/ubuntu_service.dart';
 
 import '../launcher/launcher_view.dart';
 import '../operations/operation_view.dart';
+import '../preferences/preferences_dialog.dart';
 import '../terminal/terminal_settings.dart';
 import 'context_menu.dart';
 import 'home_model.dart';
@@ -75,11 +76,17 @@ class HomePage extends StatelessWidget {
                       ),
                     );
                   },
-                  trailing: ContextMenuButton(
-                    current: model.currentRunning,
-                    terminals: model.terminals,
-                    onNewTab: model.add,
-                    onCloseTab: model.close,
+                  trailing: PopupMenuButton<VoidCallback>(
+                    icon: const Icon(Icons.more_vert),
+                    splashRadius: 16,
+                    iconSize: 16,
+                    onSelected: (callback) => callback(),
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        child: const Text('Preferences'),
+                        value: () => showPreferencesDialog(context: context),
+                      ),
+                    ],
                   ),
                   onMoved: model.move,
                   preferredHeight: Theme.of(context).appBarTheme.toolbarHeight,

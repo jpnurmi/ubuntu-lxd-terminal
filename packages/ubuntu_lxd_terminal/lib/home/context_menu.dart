@@ -35,37 +35,6 @@ class ContextMenuArea extends StatelessWidget {
   }
 }
 
-class ContextMenuButton extends StatelessWidget {
-  const ContextMenuButton({
-    super.key,
-    required this.current,
-    required this.terminals,
-    required this.onNewTab,
-    required this.onCloseTab,
-  });
-
-  final Terminal? current;
-  final List<TerminalState> terminals;
-  final VoidCallback? onNewTab;
-  final VoidCallback? onCloseTab;
-
-  @override
-  Widget build(BuildContext context) {
-    return PopupMenuButton(
-      icon: const Icon(Icons.more_vert),
-      splashRadius: 16,
-      iconSize: 16,
-      itemBuilder: (context) => buildContextMenu(
-        context: context,
-        current: current,
-        terminals: terminals,
-        onNewTab: onNewTab,
-        onCloseTab: onCloseTab,
-      ),
-    );
-  }
-}
-
 Future showContextMenu({
   required BuildContext context,
   required Offset globalPosition,
