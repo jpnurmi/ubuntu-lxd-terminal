@@ -63,12 +63,7 @@ class _RemoteImageListView extends StatelessWidget {
   final ValueChanged<LxdRemoteImage>? onSelected;
 
   String alias(LxdRemoteImage image) {
-    final alias = image.aliases.firstOrNull?.split('/').first;
-    const aliases = {
-      'archlinux': 'arch-linux',
-      'opensuse': 'suse',
-    };
-    return aliases[alias] ?? alias ?? '';
+    return image.aliases.firstOrNull?.split('/').first ?? '';
   }
 
   @override

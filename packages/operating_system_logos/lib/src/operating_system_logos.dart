@@ -25,7 +25,10 @@ class _OperatingSystemLogoState extends State<OperatingSystemLogo> {
   @override
   void initState() {
     super.initState();
+    _updateLogo();
+  }
 
+  void _updateLogo() {
     final key = Object.hash(widget.name, widget.size);
     _logo = _cache[key];
 
@@ -46,6 +49,14 @@ class _OperatingSystemLogoState extends State<OperatingSystemLogo> {
     } else {
       return SizedBox.square(dimension: widget.size.toDouble());
     }
+  }
+
+  @override
+  void didUpdateWidget(covariant OperatingSystemLogo oldWidget) {
+    if (widget.name != oldWidget.name || widget.size != oldWidget.size) {
+      _updateLogo();
+    }
+    super.didUpdateWidget(oldWidget);
   }
 }
 
@@ -71,8 +82,13 @@ Future<ImageProvider<Object>?> findOperatingSystemLogo(
 
 Future<OperatingSystem?> findOperatingSystem(String str) async {
   final operatingSystems = await getOperatingSystems();
+  const aliases = {
+    'archlinux': 'arch-linux',
+    'opensuse': 'suse',
+  };
+  final alias = aliases[str] ?? str;
   return operatingSystems.firstWhereOrNull(
-      (os) => str == os.code || str == os.name || str == os.slug);
+      (os) => alias == os.code || alias == os.name || alias == os.slug);
 }
 
 List<OperatingSystem>? _operatingSystems;

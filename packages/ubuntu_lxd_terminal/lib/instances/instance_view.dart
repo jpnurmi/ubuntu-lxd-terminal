@@ -1,6 +1,8 @@
 import 'package:async_value/async_value.dart';
 import 'package:flutter/material.dart';
+import 'package:lxd/lxd.dart';
 import 'package:lxd_x/lxd_x.dart';
+import 'package:operating_system_logos/operating_system_logos.dart';
 import 'package:provider/provider.dart';
 
 import 'instance_model.dart';
@@ -117,6 +119,10 @@ class _InstanceListTileState extends State<_InstanceListTile> {
     });
   }
 
+  String os(LxdInstance? instance) {
+    return instance?.config['image.os'] as String? ?? '';
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = context.watch<InstanceState>();
@@ -124,6 +130,7 @@ class _InstanceListTileState extends State<_InstanceListTile> {
     final canStop = widget.onStop != null && instance?.isRunning == true;
     final canDelete = widget.onDelete != null && instance?.isStopped == true;
     return ListTile(
+      leading: OperatingSystemLogo(name: os(instance), size: 32),
       title: Text(instance?.name ?? ''),
       subtitle: Text(instance?.status ?? ''),
       trailing: canStop
