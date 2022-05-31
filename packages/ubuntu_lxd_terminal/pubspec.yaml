@@ -27,6 +27,8 @@ dependencies:
   meta: ^1.7.0
   movable_tabs:
     path: ../movable_tabs
+  operating_system_logos:
+    path: ../operating_system_logos
   provider: ^6.0.3
   safe_change_notifier: ^0.1.0+1
   shared_preferences: ^2.0.15

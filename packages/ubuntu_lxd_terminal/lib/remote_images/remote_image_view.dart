@@ -1,7 +1,9 @@
 import 'package:async_value/async_value.dart';
+import 'package:collection/collection.dart';
 import 'package:data_size/data_size.dart';
 import 'package:flutter/material.dart';
 import 'package:lxd/lxd.dart';
+import 'package:operating_system_logos/operating_system_logos.dart';
 import 'package:provider/provider.dart';
 import 'package:ubuntu_widgets/ubuntu_widgets.dart';
 
@@ -60,6 +62,15 @@ class _RemoteImageListView extends StatelessWidget {
   final LxdRemoteImage? selected;
   final ValueChanged<LxdRemoteImage>? onSelected;
 
+  String alias(LxdRemoteImage image) {
+    final alias = image.aliases.firstOrNull?.split('/').first;
+    const aliases = {
+      'archlinux': 'arch-linux',
+      'opensuse': 'suse',
+    };
+    return aliases[alias] ?? alias ?? '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return RoundedListView.builder(
@@ -68,6 +79,7 @@ class _RemoteImageListView extends StatelessWidget {
         final image = images![index];
         return ListTile(
           selected: selected == image,
+          leading: OperatingSystemLogo(name: alias(image), size: 32),
           title: Text(image.description),
           trailing: Text(image.size.formatByteSize()),
           onTap: () => onSelected?.call(image),
