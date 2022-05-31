@@ -5,7 +5,6 @@ import 'package:meta/meta.dart';
 import 'package:safe_change_notifier/safe_change_notifier.dart';
 
 // TODO: https://cloud-images.ubuntu.com/releases
-const _kDefaultArchitecture = 'amd64';
 const _kDefaultUrl = 'https://images.linuxcontainers.org';
 
 typedef RemoteImageList = AsyncValue<List<LxdRemoteImage>>;
@@ -25,16 +24,12 @@ class RemoteImageModel extends SafeChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> init({
-    String url = _kDefaultUrl,
-    String architecture = _kDefaultArchitecture,
-  }) async {
+  Future<void> init({String url = _kDefaultUrl}) async {
     images = const RemoteImageList.loading().copyWithPrevious(images);
 
     images = await RemoteImageList.guard(() async {
       final images = await _service.client.getRemoteImages(url);
       return images
-          .where((image) => image.architecture == architecture)
           .fold<Map<String, LxdRemoteImage>>(
             {},
             (releases, image) => releases
