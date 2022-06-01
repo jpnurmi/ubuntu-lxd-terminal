@@ -38,13 +38,9 @@ class _ProductLogoState extends State<ProductLogo> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: widget.size,
       height: widget.size,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
-        color: Theme.of(context).focusColor,
-      ),
       child: _svg != null
           ? Padding(
               padding: const EdgeInsets.all(4),
