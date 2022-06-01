@@ -2,9 +2,9 @@ import 'package:async_value/async_value.dart';
 import 'package:flutter/material.dart';
 import 'package:lxd/lxd.dart';
 import 'package:lxd_x/lxd_x.dart';
-import 'package:operating_system_logos/operating_system_logos.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/product_logo.dart';
 import 'instance_model.dart';
 
 class InstanceView extends StatefulWidget {
@@ -119,10 +119,6 @@ class _InstanceListTileState extends State<_InstanceListTile> {
     });
   }
 
-  String os(LxdInstance? instance) {
-    return instance?.config['image.os'] as String? ?? '';
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = context.watch<InstanceState>();
@@ -130,9 +126,9 @@ class _InstanceListTileState extends State<_InstanceListTile> {
     final canStop = widget.onStop != null && instance?.isRunning == true;
     final canDelete = widget.onDelete != null && instance?.isStopped == true;
     return ListTile(
-      leading: OperatingSystemLogo(name: os(instance), size: 32),
+      leading: ProductLogo.asset(name: instance?.imageName, size: 48),
       title: Text(instance?.name ?? ''),
-      subtitle: Text(instance?.status ?? ''),
+      subtitle: Text(instance?.imageDescription ?? ''),
       trailing: canStop
           ? _StopButton(widget.onStop!)
           : canDelete
@@ -140,6 +136,16 @@ class _InstanceListTileState extends State<_InstanceListTile> {
               : null,
       onTap: widget.onSelect,
     );
+  }
+}
+
+extension _LxdInstanceImage on LxdInstance {
+  String? get imageName {
+    return (config['image.os'] as String?)?.toLowerCase();
+  }
+
+  String? get imageDescription {
+    return config['image.description'] as String?;
   }
 }
 

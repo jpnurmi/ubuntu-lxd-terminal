@@ -13,6 +13,7 @@ dependencies:
   data_size: ^0.2.0
   flutter:
     sdk: flutter
+  flutter_svg: ^1.1.0
   freezed_annotation: ^2.0.3
   lxc_config:
     path: ../lxc_config
@@ -27,8 +28,6 @@ dependencies:
   meta: ^1.7.0
   movable_tabs:
     path: ../movable_tabs
-  operating_system_logos:
-    path: ../operating_system_logos
   provider: ^6.0.3
   safe_change_notifier: ^0.1.0+1
   shared_preferences: ^2.0.15
@@ -51,3 +50,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/
