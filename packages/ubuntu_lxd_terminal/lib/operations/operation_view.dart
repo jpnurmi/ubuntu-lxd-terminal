@@ -33,11 +33,24 @@ class OperationView extends StatelessWidget {
   }
 }
 
-class _OperationView extends StatelessWidget {
+class _OperationView extends StatefulWidget {
   const _OperationView({required this.op, this.onCancel});
 
   final LxdOperation? op;
   final VoidCallback? onCancel;
+
+  @override
+  State<_OperationView> createState() => _OperationViewState();
+}
+
+class _OperationViewState extends State<_OperationView> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<OperationModel>().init();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +65,7 @@ class _OperationView extends StatelessWidget {
             ),
             const SizedBox(height: 48),
             Text(
-              op?.description ?? 'Preparing...',
+              widget.op?.description ?? 'Preparing...',
               style: Theme.of(context).textTheme.headlineLarge,
             ),
           ],
@@ -68,16 +81,18 @@ class _OperationView extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Text(
-                    op?.downloadProgress ?? op?.unpackProgress ?? 'Please wait',
+                    widget.op?.downloadProgress ??
+                        widget.op?.unpackProgress ??
+                        'Please wait',
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),
               ButtonBar(
                 children: [
-                  if (onCancel != null && op?.mayCancel == true)
+                  if (widget.onCancel != null && widget.op?.mayCancel == true)
                     OutlinedButton(
-                      onPressed: onCancel,
+                      onPressed: widget.onCancel,
                       child: const Text('Cancel'),
                     ),
                 ],
