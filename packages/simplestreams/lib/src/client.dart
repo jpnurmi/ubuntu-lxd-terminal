@@ -30,8 +30,8 @@ class SimpleStreamClient {
     return stream;
   }
 
-  Future<SimpleProducts> getProducts(String path) async {
-    final json = await _getJson(path);
+  Future<SimpleProducts> getProducts(SimpleStreamIndex index) async {
+    final json = await _getJson(index.path);
     return SimpleProducts.fromJson(json);
   }
 

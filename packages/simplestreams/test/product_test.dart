@@ -86,7 +86,12 @@ void main() {
     when(http.getUrl(uri)).thenAnswer((_) async => request);
 
     final client = SimpleStreamClient('https://127.0.0.1', client: http);
-    final products = await client.getProducts('streams/v1/images.json');
+    const index = SimpleStreamIndex(
+      datatype: 'image-downloads',
+      path: 'streams/v1/images.json',
+      products: [],
+    );
+    final products = await client.getProducts(index);
     verify(http.getUrl(uri)).called(1);
     verify(request.close()).called(1);
 
@@ -234,7 +239,12 @@ void main() {
     when(http.getUrl(uri)).thenAnswer((_) async => request);
 
     final client = SimpleStreamClient('https://127.0.0.1', client: http);
-    final products = await client.getProducts('streams/v1/images.json');
+    const index = SimpleStreamIndex(
+      datatype: 'image-ids',
+      path: 'streams/v1/images.json',
+      products: [],
+    );
+    final products = await client.getProducts(index);
     verify(http.getUrl(uri)).called(1);
     verify(request.close()).called(1);
 
