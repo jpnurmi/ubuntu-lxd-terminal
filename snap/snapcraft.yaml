@@ -51,3 +51,4 @@ apps:
     extensions: [gnome-3-38]
     plugs:
       - lxd
+      - network
