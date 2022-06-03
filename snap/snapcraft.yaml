@@ -47,3 +47,5 @@ apps:
     command: bin/ubuntu-lxd-terminal
     desktop: bin/data/flutter_assets/assets/ubuntu-lxd-terminal.desktop
     extensions: [gnome-3-38]
+    plugs:
+      - lxd
