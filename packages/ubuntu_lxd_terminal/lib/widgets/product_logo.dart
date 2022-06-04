@@ -22,7 +22,7 @@ class _ProductLogoState extends State<ProductLogo> {
 
   Future<void> _updateSvg() async {
     final svg = await _loadSvg();
-    if (_svg == svg) return;
+    if (!mounted || _svg == svg) return;
     setState(() => _svg = svg);
   }
 
