@@ -16,6 +16,7 @@ dependencies:
   flutter_svg: ^1.1.0
   freezed_annotation: ^2.0.3
   handy_window: ^0.1.4+1
+  json_annotation: ^4.5.0
   lxc_config:
     path: ../lxc_config
   lxd:
@@ -29,12 +30,20 @@ dependencies:
   meta: ^1.7.0
   movable_tabs:
     path: ../movable_tabs
+  osarch:
+    path: ../osarch
+  petname:
+    path: ../petname
   provider: ^6.0.3
   safe_change_notifier: ^0.1.0+1
   shared_preferences: ^2.0.15
+  simplestreams:
+    path: ../simplestreams
   terminal_view:
     path: ../terminal_view
-  ubuntu_service: ^0.1.0
+  ubuntu_service:
+    git:
+      url: https://github.com/ubuntu-flutter-community/ubuntu_service.git
   ubuntu_widgets:
     git:
       url: https://github.com/canonical/ubuntu-flutter-plugins.git
@@ -48,6 +57,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: ^2.0.3+1
+  json_serializable: ^6.2.0
 
 flutter:
   uses-material-design: true

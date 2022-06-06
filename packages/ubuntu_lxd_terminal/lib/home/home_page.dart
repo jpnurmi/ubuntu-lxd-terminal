@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lxd_service/lxd_service.dart';
@@ -6,7 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:terminal_view/terminal_view.dart';
 import 'package:ubuntu_service/ubuntu_service.dart';
 
-import '../launcher/launcher_view.dart';
+import '../instances/instance_view.dart';
+import '../launcher/launcher_dialog.dart';
 import '../operations/operation_view.dart';
 import '../preferences/preferences_dialog.dart';
 import '../terminal/terminal_settings.dart';
@@ -97,11 +100,21 @@ class HomePage extends StatelessWidget {
             onNewTab: model.add,
             onCloseTab: model.close,
             child: current.when(
-              none: () => LauncherView(
-                onStart: model.start,
-                onCreate: model.create,
-                onDelete: model.delete,
-                onStop: model.stop,
+              none: () => Scaffold(
+                body: InstanceView(
+                  onSelect: model.start,
+                  onDelete: model.delete,
+                  onStop: model.stop,
+                ),
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () async {
+                    final options = await showLauncherDialog(context);
+                    if (options != null) {
+                      unawaited(model.create(options.image, options.name));
+                    }
+                  },
+                  child: const Icon(Icons.add),
+                ),
               ),
               loading: (op) => OperationView.create(context, op.id),
               running: (terminal) => TerminalTheme(
