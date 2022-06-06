@@ -28,9 +28,10 @@ class _ProductLogoState extends State<ProductLogo> {
 
   Future<String?> _loadSvg() async {
     try {
-      if (widget.name != null) {
+      final name = widget.name?.toLowerCase();
+      if (name != null) {
         final bundle = DefaultAssetBundle.of(context);
-        return await bundle.loadString('assets/${widget.name}.svg');
+        return await bundle.loadString('assets/$name.svg');
       }
     } on FlutterError catch (_) {}
     return null;
