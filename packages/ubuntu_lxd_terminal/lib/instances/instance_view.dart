@@ -29,9 +29,8 @@ class _InstanceViewState extends State<InstanceView> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<InstanceModel>().init();
-    });
+    final model = context.read<InstanceModel>();
+    WidgetsBinding.instance.addPostFrameCallback((_) => model.init());
   }
 
   @override
@@ -114,9 +113,8 @@ class _InstanceListTileState extends State<_InstanceListTile> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<InstanceState>().init();
-    });
+    final model = context.read<InstanceState>();
+    WidgetsBinding.instance.addPostFrameCallback((_) => model.init());
   }
 
   @override

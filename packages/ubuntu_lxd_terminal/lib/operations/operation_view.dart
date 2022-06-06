@@ -47,9 +47,8 @@ class _OperationViewState extends State<_OperationView> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<OperationModel>().init();
-    });
+    final model = context.read<OperationModel>();
+    WidgetsBinding.instance.addPostFrameCallback((_) => model.init());
   }
 
   @override
