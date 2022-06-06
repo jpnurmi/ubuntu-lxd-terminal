@@ -34,7 +34,7 @@ extension LxdNetworkStateX on LxdNetworkState {
 }
 
 extension LxdOperationX on LxdOperation {
-  List<String>? get instances => (resources['instances'] as List?)
+  List<String>? get instances => (resources?['instances'] as List?)
       ?.cast<String>()
       .map((path) => path.split('/').last)
       .toList();
