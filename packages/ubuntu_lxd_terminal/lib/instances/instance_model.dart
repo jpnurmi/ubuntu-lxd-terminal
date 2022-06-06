@@ -65,7 +65,7 @@ class InstanceState extends SafeChangeNotifier {
   }
 
   Future<void> init() async {
-    Future<void> _fetch(String name) async {
+    Future<void> fetch(String name) async {
       instance = const InstanceValue.loading().copyWithPrevious(instance);
       instance =
           await InstanceList.guard(() => _service.client.getInstance(name));
@@ -73,9 +73,9 @@ class InstanceState extends SafeChangeNotifier {
 
     _sub ??= _service.instanceUpdated
         .where((instance) => instance == _name)
-        .listen(_fetch);
+        .listen(fetch);
 
-    return _fetch(_name);
+    return fetch(_name);
   }
 
   @override
