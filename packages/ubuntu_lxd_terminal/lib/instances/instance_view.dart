@@ -79,6 +79,7 @@ class _InstanceListView extends StatelessWidget {
       itemBuilder: (context, index) {
         final name = instances![index];
         return ChangeNotifierProvider(
+          key: ValueKey(name),
           create: (_) => model.createState(name),
           child: _InstanceListTile(
             name: name,
