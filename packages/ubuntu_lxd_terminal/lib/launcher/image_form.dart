@@ -192,9 +192,9 @@ class _DropdownField extends StatelessWidget {
       value: value,
       items: allValues.map((variant) {
         return DropdownMenuItem<String>(
-          value: value,
+          value: variant,
           child: Text(
-            '$value',
+            variant,
             style: TextStyle(
               color: availableValues.contains(variant)
                   ? null
