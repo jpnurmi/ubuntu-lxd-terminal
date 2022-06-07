@@ -5,8 +5,8 @@ import 'package:lxd/lxd.dart';
 import 'package:lxd_x/lxd_x.dart';
 import 'package:provider/provider.dart';
 
-import '../remotes/remote_store.dart';
 import '../remotes/remote_selector.dart';
+import '../remotes/remote_store.dart';
 import 'launcher_model.dart';
 import 'simple_stream_view.dart';
 
