@@ -27,7 +27,8 @@ parts:
       - unzip
       - xz-utils
       - zip
-    override-prime: ''
+    override-prime:
+      rm -r $CRAFT_PART_INSTALL
 
   ubuntu-lxd-terminal:
     after: [ flutter-git ]
