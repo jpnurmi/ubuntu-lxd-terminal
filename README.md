@@ -1,3 +1,1 @@
-# Ubuntu LXD Terminal
-
-An experimental Flutter-based LXD terminal UI for Ubuntu.
+Moved to [canonical/lxd-toolbox](https://github.com/canonical/lxd-toolbox)
